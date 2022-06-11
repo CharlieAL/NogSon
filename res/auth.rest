@@ -1,0 +1,25 @@
+
+###Login
+POST http://localhost:3000/api/login
+content-type: application/json
+
+{
+  "name":"carlos",
+  "password":"123"
+}
+
+###Register
+POST http://localhost:3000/api/auth
+content-type: application/json
+
+{
+  "name":"carlos",
+  "passwordHash":"123",
+  "level":""
+}
+
+###get all users
+GET http://localhost:3000/api/auth
+
+
+###get user by id
