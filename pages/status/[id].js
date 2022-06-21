@@ -202,7 +202,7 @@ export async function getStaticPaths() {
   console.log(paths)
   return {
     paths,
-    fallback: false // false or 'blocking'
+    fallback: 'blocking' // false or 'blocking'
   }
 }
 
