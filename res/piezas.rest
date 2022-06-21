@@ -4,10 +4,10 @@ GET http://localhost:3000/api/piezas
 POST http://localhost:3000/api/piezas
 Content-Type: application/json
 
-{
-    "nombre": "flat",
-    "precio": "10",
-    "descripcion": "Descripcion de la pieza 1",
+  {
+    "nombre": "PIEZA 3",
+    "precio": "1200",
+    "descripcion": "pieza 3",
     "cantidad": "100"
-  },
+  }
   

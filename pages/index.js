@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { login } from 'service/auth'
 import Image from 'next/image'
-import AppLayout from '../components/AppLayout'
 
 import LoginForm from '../components/Login'
 import { useRouter } from 'next/router'
@@ -38,22 +37,20 @@ export default function Home() {
   return (
     <>
       {user === null && (
-        <AppLayout>
-          <section className='pt-44'>
-            <div className='text-center'>
-              <Image width={90} height={90} src='/logoNog.png' alt='NogSon' />
-            </div>
-            <h1 className='font-extralight text-center'>nogson app</h1>
-            <LoginForm
-              onSubmit={handleSubminLogin}
-              error={error}
-              valueName={name}
-              valuePassword={password}
-              onChangeName={({ target }) => setName(target.value)}
-              onChangePassword={({ target }) => setPassword(target.value)}
-            />
-          </section>
-        </AppLayout>
+        <section className='pt-44'>
+          <div className='text-center'>
+            <Image width={90} height={90} src='/logoNog.png' alt='NogSon' />
+          </div>
+          <h1 className='font-extralight text-center'>nogson app</h1>
+          <LoginForm
+            onSubmit={handleSubminLogin}
+            error={error}
+            valueName={name}
+            valuePassword={password}
+            onChangeName={({ target }) => setName(target.value)}
+            onChangePassword={({ target }) => setPassword(target.value)}
+          />
+        </section>
       )}
       {user === undefined && <div>Loading...</div>}
     </>

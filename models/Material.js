@@ -18,6 +18,10 @@ const materialSchema = new Schema(
     cantidad: {
       type: Number
     },
+    minStock: {
+      type: Number,
+      default: 10
+    },
     scrap: {
       type: Boolean
     }

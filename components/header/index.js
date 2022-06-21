@@ -1,12 +1,17 @@
 import React from 'react'
 
-export default function Header({ text, children }) {
+export default function Header({ text = '', children = ' ' }) {
   return (
     <>
       <header>
-        <h1 className='pl-4'>{text}</h1>
-        <div className='flex-1'>
-          <div className='flex justify-end pr-10'>{children}</div>
+        <div className='pl-4 absolute'>
+          <img src='/LogoApp.png' />
+        </div>
+        <div className=' flex-1'>
+          <p className='font-thin '>{text}</p>
+        </div>
+        <div className='pr-4 absolute right-1'>
+          <div className=''>{children}</div>
         </div>
       </header>
       <style jsx>{`
@@ -18,12 +23,21 @@ export default function Header({ text, children }) {
           display: flex;
           height: 49px;
           align-items: center;
+          text-align: center;
+          justify-content: ;
         }
 
         h1 {
           font-size: 1.5rem;
           font-weight: 600;
           padding: 0 1rem;
+        }
+
+        img {
+          width: 70px;
+        }
+
+        p {
         }
       `}</style>
     </>

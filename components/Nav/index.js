@@ -23,12 +23,12 @@ export default function Nav() {
             <Part />
           </a>
         </Link>
-        <Link href={'/compose/product'}>
+        <Link href={'/compose/finishgood'}>
           <a className='flex h-full justify-center a'>
             <Inventary />
           </a>
         </Link>
-        <Link href={'/compose/product'}>
+        <Link href={'/graphs'}>
           <a className='flex h-full justify-center a'>
             <Alert />
           </a>
@@ -48,8 +48,14 @@ export default function Nav() {
         }
         nav a {
           align-items: center;
-          height: 100%;
+          width: 50px;
           justify-content: center;
+        }
+
+        nav a:hover {
+          background: radial-gradient(#00033233 16%, transparent 16%);
+          background-size: 190px 190px;
+          background-position: center;
         }
       `}</style>
     </>

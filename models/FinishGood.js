@@ -1,32 +1,35 @@
 import { Schema, model, models } from 'mongoose'
 
-const partSchema = new Schema(
+const finishGoodSchema = new Schema(
   {
-    nombre: {
+    cliente: {
       type: String,
       required: [true, 'name is required'],
       trim: true,
       maxlength: [40, 'Username max length must be at least 40 characters']
     },
-    precio: {
-      type: String
-    },
-    descripcion: {
+    comprador: {
       type: String,
       trim: true
+    },
+    precioVenta: {
+      type: Number
+    },
+    precioTotal: {
+      type: Number
     },
     cantidad: {
       type: Number
     },
-    minStock: {
-      type: Number,
-      default: 10
+    productoId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Product'
     },
-    materiales: [
-      {
-        _id: { type: Schema.Types.ObjectId, ref: 'Material' }
-      }
-    ]
+    status: {
+      type: String,
+      enum: ['pending', 'finished'],
+      default: 'pending'
+    }
   },
   {
     timestamps: true,
@@ -34,11 +37,10 @@ const partSchema = new Schema(
   }
 )
 
-partSchema.set('toJSON', {
+finishGoodSchema.set('toJSON', {
   transform: (document, returnObject) => {
     returnObject.id = returnObject._id
     delete returnObject._id
   }
 })
-
-export default models.Part || model('Part', partSchema)
+export default models.finishGood || model('finishGood', finishGoodSchema)

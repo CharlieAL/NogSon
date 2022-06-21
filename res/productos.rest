@@ -5,8 +5,12 @@ POST http://localhost:3000/api/productos
 Content-Type: application/json
 
 {
-  "nombre": "Producto 1",
-  "precio": "100",
+  "nombre": "cajon",
+  "cantiad": 10,
+  "precio": "",
   "descripcion": "Descripcion del producto 1",
-  "categoria": "Categoria 1"
+  "piezas": []
 }
+
+### focus producto
+GET http://localhost:3000/api/producto/62a7dcfd4e287b4ba7c653d0

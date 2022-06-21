@@ -33,7 +33,7 @@ export default function useTimeAgo(timestamp, createdAt) {
     const timeout = setInterval(() => {
       const newTimeago = getDateDiffs(timestamp)
       setTimeago(newTimeago)
-    }, 10000)
+    }, 1000000)
     return () => clearTimeout(timeout)
   }, [timestamp])
   const { value, unit } = timeago

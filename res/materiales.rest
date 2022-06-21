@@ -5,10 +5,10 @@ POST http://localhost:3000/api/materials
 content-type: application/json
 
 {
-  "nombre": "flat",
+  "nombre": "llanta",
   "precio": "1500",
   "cantidad": "300",
-  "descripcion": "tornillo",
+  "descripcion": "3x3",
   "scrap": false,
-  "pieza": true
+  "pieza": false
 }

@@ -1,55 +1,52 @@
-import AppLayout from 'components/AppLayout'
 import Header from 'components/header'
-import CreateSvg from 'components/icons/Create'
-import Input from 'components/Input'
+
+// import Input from 'components/Input'
 import ListProducts from 'components/ListOfProducts'
 import Nav from 'components/Nav'
 import useUser from 'hooks/useUser'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function Main() {
-  const [search, setSearch] = useState('')
+  // const [search, setSearch] = useState('') create a state for search
   const [productos, setProductos] = useState([])
-  const [array, setArray] = useState(null)
+  // const [array, setArray] = useState(null) search for a product
   const user = useUser()
 
   useEffect(() => {
-    user &&
-      fetch('/api/productos')
-        .then((res) => res.json())
-        .then(setProductos)
+    fetch('/api/productos')
+      .then((res) => res.json())
+      .then(setProductos)
   }, [user])
-  const handleSearch = (e) => {
-    setSearch(e.target.value)
-    const data = productos.filter((data) => {
-      if (data.nombre.toLowerCase().includes(e.target.value.toLowerCase())) {
-        return data
-      } else {
-        return null
-      }
-    })
-    setArray(data)
-  }
+  //  function for search!!!!!
+  // const handleSearch = (e) => {
+  //   setSearch(e.target.value)
+  //   const data = productos.filter((data) => {
+  //     if (data.nombre.toLowerCase().includes(e.target.value.toLowerCase())) {
+  //       return data
+  //     } else {
+  //       return null
+  //     }
+  //   })
+  //   setArray(data)
+  // }
 
   return (
     <>
-      <AppLayout>
-        <Header text='Productos' />
-        <section>
-          <div className='flex flex-wrap justify-evenly'>
-            {productos.map((data) => (
-              <ListProducts
-                key={data.id}
-                name={data.nombre}
-                descripction={data.descripcion}
-                custumer={data.custumer}
-              />
-            ))}
-          </div>
-        </section>
-        <Nav></Nav>
-      </AppLayout>
+      <Header text='Product Plans'></Header>
+      <section>
+        <div className='flex flex-wrap justify-evenly'>
+          {productos.map((data) => (
+            <ListProducts
+              key={data.id}
+              name={data.nombre}
+              descripction={data.descripcion}
+              custumer={data.custumer}
+              id={data.id}
+            />
+          ))}
+        </div>
+      </section>
+      <Nav></Nav>
       <style jsx>{`
         header {
           background: #ffffffaa;

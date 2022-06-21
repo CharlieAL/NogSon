@@ -16,6 +16,9 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    quotes: 'off',
+    'multiline-ternary': 'off',
+    'array-callback-return': 'off'
   }
 }

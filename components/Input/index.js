@@ -5,7 +5,9 @@ export default function Input({
   placeholder,
   label,
   className,
-  max
+  max,
+  defaultValue,
+  disabled
 }) {
   return (
     <div className=''>
@@ -19,9 +21,11 @@ export default function Input({
             : className
         }
         type={type}
+        disabled={disabled}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        defaultValue={defaultValue}
       />
     </div>
   )

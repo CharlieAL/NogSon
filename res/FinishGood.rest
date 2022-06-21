@@ -1,0 +1,13 @@
+GET http://localhost:3000/api/finishGood
+
+###
+POST http://localhost:3000/api/finishGood
+Content-Type: application/json
+
+{
+  "cliente": "test",
+  "comprador": "test",
+  "precioVenta": "2000",
+  "cantidad": 1,
+  "productoId": "62aa5141f769c811fd0a35de"
+}

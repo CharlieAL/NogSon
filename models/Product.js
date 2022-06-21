@@ -7,8 +7,7 @@ const productSchema = new Schema(
       type: String,
       required: [true, 'name is required'],
       trim: true,
-      maxlength: [40, 'Username max length must be at least 40 characters'],
-      unique: true
+      maxlength: [40, 'Username max length must be at least 40 characters']
     },
     precio: {
       type: String
@@ -18,21 +17,11 @@ const productSchema = new Schema(
 
       trim: true
     },
-    cliente: {
-      type: String,
-
-      trim: true
-    },
-    cantidad: {
-      type: Number
-    },
-    status: {
-      type: String
-    },
     piezas: [
       {
         nombre: { type: String, ref: 'Pieza' },
-        cantidad: { type: Number }
+        cantidad: { type: Number },
+        minStock: { type: Number }
       }
     ]
   },
