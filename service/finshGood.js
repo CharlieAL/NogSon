@@ -10,15 +10,9 @@ export async function createFinishGood(body) {
   }
 }
 
-export function getFinishGood() {
-  return fetch('http://localhost:3000/api/finishGood')
-    .then((res) => res.json())
-    .then((data) => {
-      return data
-    })
-    .catch((err) => {
-      console.log('err', err)
-    })
+export async function getFinishGood() {
+  const response = await axios.get('http://localhost:3000/api/finishGood')
+  return response.data
 }
 
 export async function updateFinishGood(body) {

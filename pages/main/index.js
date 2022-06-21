@@ -5,6 +5,7 @@ import ListProducts from 'components/ListOfProducts'
 import Nav from 'components/Nav'
 import useUser from 'hooks/useUser'
 import { useEffect, useState } from 'react'
+import { getProducts } from 'service/products'
 
 export default function Main() {
   // const [search, setSearch] = useState('') create a state for search
@@ -13,9 +14,13 @@ export default function Main() {
   const user = useUser()
 
   useEffect(() => {
-    fetch('/api/productos')
-      .then((res) => res.json())
-      .then(setProductos)
+    getProducts()
+      .then((productos) => {
+        setProductos(productos)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }, [user])
   //  function for search!!!!!
   // const handleSearch = (e) => {

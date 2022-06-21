@@ -20,12 +20,9 @@ export default function finishGood() {
 
   const handleClick = async (id) => {
     try {
-      const res = await updateFinishGood({ id })
-      console.log(res)
+      await updateFinishGood({ id })
       setUpdate(!update)
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
   const handleClickState = (text) => {
     if (text === 'finished') {

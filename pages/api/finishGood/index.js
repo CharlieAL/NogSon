@@ -20,7 +20,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Price is required' })
     }
     const data = await updateAmountOfParts(cantidad, piezas)
-    console.log(data)
     if (data.error) return res.status(400).json(data)
     const precioTotal = getTotalFinishGood(cantidad, precioVenta)
     const newFinishGood = {
@@ -36,7 +35,6 @@ export default async function handler(req, res) {
       const finishGood = await FinishGood.create(newFinishGood)
       return res.status(201).json(finishGood)
     } catch (error) {
-      console.log(error)
       return res.status(400).end()
     }
   } else if (method === 'GET') {

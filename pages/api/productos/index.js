@@ -11,11 +11,9 @@ export default async function handler(req, res) {
     const products = await Product.find({})
       .sort({ updatedAt: -1 })
       .populate('piezas')
-    const data = JSON.stringify(products)
-    const dataJson = JSON.parse(data)
-    res.status(200).json(dataJson)
+    res.status(200).json(products)
   } else if (method === 'POST') {
-    const { nombre, precio, descripcion, cantidad, piezas } = body
+    const { nombre, precio, descripcion, cantidad = 1, piezas } = body
     for (let i = 0; i < piezas.length; i++) {
       const resultado = await Part.find({ nombre: piezas[i].nombre })
       const cantidadTotal = piezas[i].cantidad * cantidad

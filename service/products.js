@@ -8,3 +8,10 @@ export const createProduct = async (body) => {
     return response.data
   }
 }
+
+export const getProducts = async () => {
+  const response = await axios.get(`${baseUrl}/productos`)
+  if (response.status === 200) {
+    return response.data
+  }
+}

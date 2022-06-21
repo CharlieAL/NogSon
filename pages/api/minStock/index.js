@@ -11,7 +11,6 @@ export default async function handler(req, res) {
       const minStocks = await MinStock.find({})
       return res.status(200).json(minStocks)
     } catch (error) {
-      console.log(error)
       return res.status(400).json({ error: error.message })
     }
   } else if (method === 'POST') {
@@ -19,7 +18,6 @@ export default async function handler(req, res) {
       const minStock = await MinStock.create(body)
       return res.status(201).json(minStock)
     } catch (error) {
-      console.log(error)
       return res.status(400).json({ error: error.message })
     }
   }

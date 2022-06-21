@@ -11,9 +11,9 @@ export default async function handler(req, res) {
   if (method === 'GET') {
     try {
       const product = await Product.findById(id)
-      const data = JSON.stringify(product)
-      const dataJson = JSON.parse(data)
-      res.status(200).json(dataJson)
+      // const data = JSON.stringify(product)
+      // const dataJson = JSON.parse(data)
+      res.status(200).json(product)
     } catch (error) {
       res.status(404).end()
     }

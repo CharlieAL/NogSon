@@ -26,7 +26,6 @@ export default async function handler(req, res) {
       newPieza.save()
       res.status(201).json(newPieza)
     } catch (error) {
-      console.log(error)
       res.status(400).json({ error: 'Error al crear la pieza' })
     }
   }
