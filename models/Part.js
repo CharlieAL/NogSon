@@ -24,7 +24,10 @@ const partSchema = new Schema(
     },
     materiales: [
       {
-        _id: { type: Schema.Types.ObjectId, ref: 'Material' }
+        _id: { type: Schema.Types.ObjectId, ref: 'Material' },
+        nombre: { type: String },
+        cantidadNecesarias: { type: Number },
+        cantidadDisponible: { type: Number }
       }
     ]
   },

@@ -7,7 +7,8 @@ import { useState } from 'react'
 import { createFinishGood } from 'service/finshGood'
 import getPiezasFormProducts from 'service/parts'
 
-export default function StatusProduc({ producto, piezas }) {
+export default function StatusProduc(props) {
+  const { piezas, producto } = props
   const router = useRouter()
   const [error, setError] = useState('')
   const [finishGood, setFinishGood] = useState({
@@ -32,7 +33,9 @@ export default function StatusProduc({ producto, piezas }) {
       setError(data.error)
     }
   }
-
+  if (producto === null) {
+    return <p>Loading.....</p>
+  }
   return (
     <>
       <Header text={producto.nombre}>
@@ -192,16 +195,20 @@ export default function StatusProduc({ producto, piezas }) {
 export async function getStaticPaths() {
   const res = await fetch('http://localhost:3000/api/productos')
   const productos = await res.json()
+  console.log(productos)
   const paths = productos.map((producto) => ({
     params: { id: producto.id }
   }))
+  console.log(paths)
   return {
     paths,
     fallback: false // false or 'blocking'
   }
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps(context) {
+  console.log(context)
+  const { params } = context
   const data = await fetch(`http://localhost:3000/api/productos/${params.id}`)
   const producto = await data.json()
   const piezas = await getPiezasFormProducts(producto.piezas)
