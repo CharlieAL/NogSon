@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function createFinishGood(body) {
-  const res = await axios.post('http://localhost:3000/api/finishGood', body)
+  const res = await axios.post('/api/finishGood', body)
   console.log(res)
   if (res.status === 201) {
     return res.data
@@ -11,16 +11,13 @@ export async function createFinishGood(body) {
 }
 
 export async function getFinishGood() {
-  const response = await axios.get('http://localhost:3000/api/finishGood')
+  const response = await axios.get('/api/finishGood')
   return response.data
 }
 
 export async function updateFinishGood(body) {
   try {
-    const response = await axios.put(
-      'http://localhost:3000/api/finishGood',
-      body
-    )
+    const response = await axios.put('api/finishGood', body)
     return response.data
   } catch (err) {
     console.log(err)

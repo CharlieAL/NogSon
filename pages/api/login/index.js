@@ -1,27 +1,9 @@
 import { dbConnection } from 'utils/db'
 import User from 'models/User'
-import Cors from 'cors'
-
-const cors = Cors({
-  methods: ['POST', 'HEAD']
-})
 
 dbConnection()
 
-function runMiddleware(req, res, fn) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result) => {
-      if (result instanceof Error) {
-        return reject(result)
-      }
-
-      return resolve(result)
-    })
-  })
-}
-
 export default async function handler(req, res) {
-  await runMiddleware(req, res, cors)
   const { method, body } = req
   if (method === 'POST') {
     const { name, password } = body
@@ -34,7 +16,7 @@ export default async function handler(req, res) {
       user === null ? false : password === user.passwordHash
 
     if (!passwordCorrect) {
-      res.status(401).json({
+      return res.status(401).json({
         error: 'Incorrect username or password'
       })
     } else {

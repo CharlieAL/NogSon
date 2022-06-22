@@ -1,5 +1,5 @@
 export default function getPiezasFormProducts(data) {
-  const url = 'http://localhost:3000/api/piezas/compose'
+  const url = '/api/piezas/compose'
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify(data)
