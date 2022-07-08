@@ -7,7 +7,8 @@ export default function Input({
   className,
   max,
   defaultValue,
-  disabled
+  disabled,
+  checked
 }) {
   return (
     <div className=''>
@@ -26,6 +27,7 @@ export default function Input({
         onChange={onChange}
         placeholder={placeholder}
         defaultValue={defaultValue}
+        checked={checked}
       />
     </div>
   )

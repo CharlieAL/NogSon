@@ -1,20 +1,17 @@
-import Button from 'components/Button'
 import Header from 'components/header'
 import Nav from 'components/Nav'
 import { useEffect, useState } from 'react'
-import { getFinishGood, updateFinishGood } from 'service/finshGood'
+import { getFinishGood, updateFinishGood } from 'service/pendingProduct'
 
 export default function finishGood() {
   const [finishGood, setFinishGood] = useState([])
   const [update, setUpdate] = useState(false)
-  const [array, setArray] = useState([])
-  const [finished, setFinished] = useState(false)
+
   // const [total, setTotal] = useState(0)
   useEffect(() => {
     getFinishGood().then((data) => {
       const { finishGoods } = data
-      setFinishGood(finishGoods)
-      setArray(finishGoods)
+      setFinishGood(finishGoods.filter((item) => item.status === 'pending'))
     })
   }, [update])
 
@@ -24,60 +21,12 @@ export default function finishGood() {
       setUpdate(!update)
     } catch (error) {}
   }
-  const handleClickState = (text) => {
-    if (text === 'finished') {
-      setFinished(true)
-      setArray(finishGood.filter((item) => item.status === 'finished'))
-    } else if (text === 'pending') {
-      setFinished(false)
-      setArray(finishGood.filter((item) => item.status === 'pending'))
-    } else {
-      setFinished(false)
-      setArray(finishGood)
-    }
-  }
-
-  // const { onDownload } = useDownloadExcel({
-  //   currentTableRef: tableRef.current,
-  //   filename: 'Users table',
-  //   sheet: 'Users'
-  // })
   return (
     <>
       <Header text='Pending Products'></Header>
       <section>
-        <div className='text-center p-5'>
-          <Button
-            onClick={() => handleClickState('all')}
-            className={'bg-blue-500 active:translate-y-1 text-white '}
-          >
-            all
-          </Button>
-          <Button
-            onClick={() => handleClickState('finished')}
-            className={'bg-green-500 active:translate-y-1 text-white m-2'}
-          >
-            Finished
-          </Button>
-          <Button
-            onClick={() => handleClickState('pending')}
-            className={'bg-yellow-500 active:translate-y-1 text-white'}
-          >
-            pending
-          </Button>
-        </div>
-        <div>
-          {finished && (
-            <Button className={'text-white mx-2 bg-green-700'}>
-              Export to exel
-            </Button>
-          )}
-        </div>
         <article className='flex justify-center'>
           <table id='table'>
-            <caption className='font-bold border-2 text-xl py-2'>
-              PRODUCTS
-            </caption>
             <thead>
               <tr>
                 <th>Custumer</th>
@@ -90,7 +39,7 @@ export default function finishGood() {
               </tr>
             </thead>
             <tbody>
-              {array.map((item, index) => (
+              {finishGood.map((item, index) => (
                 <tr key={item.id}>
                   <td data-title='Custumer: '>{item.cliente}</td>
                   <td data-title='Buyer: '>{item.comprador}</td>
@@ -157,9 +106,9 @@ export default function finishGood() {
 
         table td,
         table th {
-          border: 1px solid #ddd;
           padding: 8px;
           text-align: center;
+          border: none;
         }
 
         table th {

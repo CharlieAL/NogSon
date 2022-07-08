@@ -17,5 +17,12 @@ export default async function handler(req, res) {
     } catch (error) {
       res.status(404).end()
     }
+  } else if (method === 'DELETE') {
+    try {
+      await Product.findByIdAndDelete(id)
+      res.status(204).end()
+    } catch (error) {
+      res.status(400).end()
+    }
   }
 }

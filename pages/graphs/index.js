@@ -67,46 +67,36 @@ export default function Graphs() {
     <>
       <Header text='Inventory'></Header>
       <section>
-        <div className='flex justify-center p-4'>
-          <div id='conteinerButton'>
-            <Button
-              id={'part'}
-              onClick={handleClick}
-              className={
-                estado.part
-                  ? 'bg-gray-500 text-white'
-                  : 'bg-gray-700 text-white'
-              }
-            >
-              Parts
-            </Button>
-          </div>
-          <div id='conteinerButton'>
-            <Button
-              id={'material'}
-              onClick={handleClick}
-              className={
-                estado.material
-                  ? 'bg-gray-500 text-white'
-                  : 'bg-gray-700 text-white'
-              }
-            >
-              Materials
-            </Button>
-          </div>
-          <div id='conteinerButton'>
-            <Button
-              id={'scrap'}
-              onClick={handleClick}
-              className={
-                estado.scrap
-                  ? 'bg-gray-500 text-white'
-                  : 'bg-gray-700 text-white'
-              }
-            >
-              Scrap
-            </Button>
-          </div>
+        <div className='text-center p-5'>
+          <Button
+            id={'part'}
+            onClick={handleClick}
+            className={
+              estado.part ? 'bg-gray-500 text-white' : 'bg-gray-700 text-white'
+            }
+          >
+            Parts
+          </Button>
+          <Button
+            id={'material'}
+            onClick={handleClick}
+            className={
+              estado.material
+                ? 'bg-gray-500 text-white m-2'
+                : 'bg-gray-700 text-white m-2'
+            }
+          >
+            Materials
+          </Button>
+          <Button
+            id={'scrap'}
+            onClick={handleClick}
+            className={
+              estado.scrap ? 'bg-gray-500 text-white' : 'bg-gray-700 text-white'
+            }
+          >
+            Scrap
+          </Button>
         </div>
         <div className='flex justify-center'>
           {data[0] === undefined ? (

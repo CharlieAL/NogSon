@@ -12,3 +12,16 @@ content-type: application/json
   "scrap": false,
   "pieza": false
 }
+
+###
+PUT http://localhost:3000/api/materials
+content-type: application/json
+
+{
+  "id": "62aa4c80d17cda4431c15b0c",
+  "nombre": "llanta2",
+  "precio": "1000",
+  "cantidad": "400",
+  "descripcion": "3x3",
+  "scrap": false
+}

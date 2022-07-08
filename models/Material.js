@@ -21,9 +21,6 @@ const materialSchema = new Schema(
     minStock: {
       type: Number,
       default: 10
-    },
-    scrap: {
-      type: Boolean
     }
   },
   {

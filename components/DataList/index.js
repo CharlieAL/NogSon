@@ -16,7 +16,7 @@ export default function DataList({
         className={
           !className
             ? 'bg-gray-50 rounded-lg py-1 px-1 w-64 outline-none'
-            : className
+            : `${className} rounded-lg py-1 px-1 w-64 outline-none`
         }
         type={type}
         value={value}
@@ -25,7 +25,9 @@ export default function DataList({
       />
       <datalist id={id}>
         {data.map((item) => (
-          <option key={item.id} value={item.nombre} />
+          <option key={item.id} value={item.nombre}>
+            {item.descripcion}
+          </option>
         ))}
       </datalist>
     </div>

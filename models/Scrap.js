@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose'
 
-const partSchema = new Schema(
+const scrapSchema = new Schema(
   {
     nombre: {
       type: String,
@@ -18,20 +18,8 @@ const partSchema = new Schema(
     cantidad: {
       type: Number
     },
-    alto: {
-      type: String
-    },
-    ancho: {
-      type: String
-    },
-    minStock: {
-      type: Number,
-      default: 10
-    },
-    materiales: {
-      _id: { type: Schema.Types.ObjectId, ref: 'Material' },
-      nombre: { type: String },
-      cantidadUsada: { type: Number }
+    area: {
+      type: Number
     }
   },
   {
@@ -40,11 +28,11 @@ const partSchema = new Schema(
   }
 )
 
-partSchema.set('toJSON', {
+scrapSchema.set('toJSON', {
   transform: (document, returnObject) => {
     returnObject.id = returnObject._id
     delete returnObject._id
   }
 })
 
-export default models.Part || model('Part', partSchema)
+export default models.Scrap || model('Scrap', scrapSchema)

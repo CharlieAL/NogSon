@@ -2,7 +2,6 @@ import axios from 'axios'
 
 export async function createFinishGood(body) {
   const res = await axios.post('/api/finishGood', body)
-  console.log(res)
   if (res.status === 201) {
     return res.data
   } else if (res.status === 400) {
@@ -17,7 +16,7 @@ export async function getFinishGood() {
 
 export async function updateFinishGood(body) {
   try {
-    const response = await axios.put('api/finishGood', body)
+    const response = await axios.put('/api/finishGood', body)
     return response.data
   } catch (err) {
     console.log(err)

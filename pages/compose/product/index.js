@@ -112,7 +112,7 @@ export default function ComposeProduct() {
   }
   return (
     <>
-      <Header text='Compose Product'>
+      <Header text='Product'>
         <Button disabled={statusButton} onClick={handleSubmit}>
           Save
         </Button>

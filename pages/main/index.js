@@ -5,7 +5,7 @@ import ListProducts from 'components/ListOfProducts'
 import Nav from 'components/Nav'
 import useUser from 'hooks/useUser'
 import { useEffect, useState } from 'react'
-import { getProducts } from 'service/products'
+import { deleteProduct, getProducts, updateProduct } from 'service/products'
 
 export default function Main() {
   // const [search, setSearch] = useState('') create a state for search
@@ -34,19 +34,45 @@ export default function Main() {
   //   })
   //   setArray(data)
   // }
+  const hanldeClickUpdate = (body, index) => {
+    updateProduct(body)
+      .then((producto) => {
+        setProductos([
+          ...productos.slice(0, index),
+          producto,
+          ...productos.slice(index + 1)
+        ])
+        return producto
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+  const hanldeClickDelete = (id) => {
+    deleteProduct(id)
+      .then((producto) => {
+        setProductos(productos.filter((producto) => producto.id !== id))
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   return (
     <>
       <Header text='Product Plans'></Header>
       <section>
         <div className='flex flex-wrap justify-evenly'>
-          {productos.map((data) => (
+          {productos.map((data, index) => (
             <ListProducts
+              onClickUpdate={hanldeClickUpdate}
+              onClickDelete={hanldeClickDelete}
               key={data.id}
               name={data.nombre}
               descripction={data.descripcion}
-              custumer={data.custumer}
+              price={data.precio}
               id={data.id}
+              index={index}
             />
           ))}
         </div>

@@ -15,3 +15,17 @@ export const getProducts = async () => {
     return response.data
   }
 }
+
+export const updateProduct = async (body) => {
+  const response = await axios.put(`${baseUrl}/productos`, body)
+  if (response.status === 200) {
+    return response.data
+  }
+}
+
+export const deleteProduct = async (id) => {
+  const response = await axios.delete(`${baseUrl}/productos/${id}`)
+  if (response.status === 200) {
+    return response.data
+  }
+}

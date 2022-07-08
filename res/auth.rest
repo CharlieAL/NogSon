@@ -15,7 +15,7 @@ content-type: application/json
 {
   "name":"carlos",
   "passwordHash":"123",
-  "level":""
+  "level":"admin"
 }
 
 ###get all users

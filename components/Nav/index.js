@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import CreateSvg from 'components/icons/Create'
-import Home from 'components/icons/Home'
-import Part from 'components/icons/Part'
+// import CreateSvg from 'components/icons/Create'
+// import Home from 'components/icons/Home'
+// import Part from 'components/icons/Part'
 import Alert from 'components/icons/Alerts'
 import Inventary from 'components/icons/Inventary'
 export default function Nav() {
@@ -9,34 +9,47 @@ export default function Nav() {
     <>
       <nav>
         <Link href={'/main'}>
-          <a className='flex h-full justify-center a'>
-            <Home />
+          <a className='flex h-full justify-center'>
+            {/* <Home /> */}
+            <div>Home</div>
           </a>
         </Link>
         <Link href={'/compose/product'}>
-          <a className='flex h-full justify-center a'>
-            <CreateSvg />
+          <a className='flex h-full justify-center'>
+            {/* <CreateSvg /> */}
+            <div>Create</div>
           </a>
         </Link>
         <Link href={'/compose/part'}>
-          <a className='flex h-full justify-center a'>
-            <Part />
+          <a className='flex h-full justify-center'>
+            {/* <Part /> */}
+            <div>Part</div>
           </a>
         </Link>
-        <Link href={'/compose/finishgood'}>
-          <a className='flex h-full justify-center a'>
+        <Link href={'/compose/pending'}>
+          <a className='flex h-full justify-center'>
             <Inventary />
           </a>
         </Link>
         <Link href={'/graphs'}>
-          <a className='flex h-full justify-center a'>
+          <a className='flex h-full justify-center'>
             <Alert />
+          </a>
+        </Link>
+        <Link href={'/compose/material'}>
+          <a className='flex h-full justify-center'>
+            <div>M</div>
+          </a>
+        </Link>
+        <Link href={'/graphs'}>
+          <a className='flex h-full justify-center'>
+            <div>FG</div>
           </a>
         </Link>
       </nav>
       <style jsx>{`
         nav {
-          border-top: 1px solid #eaeaea;
+          border-bottom: 1px solid #eaeaea;
           background: #ffffffaa;
           backdrop-filter: blur(5px);
           width: 100%;

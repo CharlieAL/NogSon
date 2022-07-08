@@ -19,6 +19,7 @@ module.exports = {
     'space-before-function-paren': 'off',
     quotes: 'off',
     'multiline-ternary': 'off',
-    'array-callback-return': 'off'
+    'array-callback-return': 'off',
+    curly: 'off'
   }
 }

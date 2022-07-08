@@ -12,14 +12,15 @@ export default async function handler(req, res) {
   } else if (method === 'POST') {
     // si se crea una pieza de 2x2 y se utiliza un material de 10x10 se debe pasar a scrap y su valor 8x8,
     const { body } = req
-    const { nombre, precio, descripcion, cantidad, materiales } = body
+    const { nombre, precio, descripcion, cantidad, materiales, minStock } = body
     // restar cantidad de materiales
     const pieza = {
       nombre,
       precio,
       descripcion,
       cantidad,
-      materiales
+      materiales,
+      minStock
     }
     try {
       const newPieza = await new Part(pieza)
