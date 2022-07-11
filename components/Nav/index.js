@@ -2,8 +2,8 @@ import Link from 'next/link'
 // import CreateSvg from 'components/icons/Create'
 // import Home from 'components/icons/Home'
 // import Part from 'components/icons/Part'
-import Alert from 'components/icons/Alerts'
-import Inventary from 'components/icons/Inventary'
+// import Alert from 'components/icons/Alerts'
+// import Inventary from 'components/icons/Inventary'
 export default function Nav() {
   return (
     <>
@@ -28,12 +28,12 @@ export default function Nav() {
         </Link>
         <Link href={'/compose/pending'}>
           <a className='flex h-full justify-center'>
-            <Inventary />
+            <div>Stock</div>
           </a>
         </Link>
         <Link href={'/graphs'}>
           <a className='flex h-full justify-center'>
-            <Alert />
+            <div>Inv</div>
           </a>
         </Link>
         <Link href={'/compose/material'}>
@@ -41,7 +41,7 @@ export default function Nav() {
             <div>M</div>
           </a>
         </Link>
-        <Link href={'/graphs'}>
+        <Link href={'/finishGood'}>
           <a className='flex h-full justify-center'>
             <div>FG</div>
           </a>

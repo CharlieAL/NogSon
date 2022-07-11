@@ -8,15 +8,9 @@ const scrapSchema = new Schema(
       trim: true,
       maxlength: [40, 'Username max length must be at least 40 characters']
     },
-    precio: {
-      type: String
-    },
     descripcion: {
       type: String,
       trim: true
-    },
-    cantidad: {
-      type: Number
     },
     area: {
       type: Number

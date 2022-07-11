@@ -8,12 +8,14 @@ export default function Input({
   max,
   defaultValue,
   disabled,
-  checked
+  checked,
+  readOnly
 }) {
   return (
     <div className=''>
       {label && <p className='text-gray-600'>{label}</p>}
       <input
+        readOnly={readOnly}
         max={max}
         min={0}
         className={

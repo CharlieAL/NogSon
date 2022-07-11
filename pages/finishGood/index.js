@@ -11,7 +11,7 @@ export default function finishGood() {
   useEffect(() => {
     getFinishGood().then((data) => {
       const { finishGoods } = data
-      setFinishGood(finishGoods.filter((item) => item.status === 'pending'))
+      setFinishGood(finishGoods.filter((item) => item.status === 'finished'))
     })
   }, [update])
 
@@ -23,7 +23,7 @@ export default function finishGood() {
   }
   return (
     <>
-      <Header text='Pending Products'></Header>
+      <Header text='Finish-Good'></Header>
       <section>
         <article className='flex justify-center'>
           <table id='table'>

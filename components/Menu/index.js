@@ -64,7 +64,7 @@ export default function Menu({
             >
               Update
             </button>
-            <button
+            {/* <button
               onClick={(e) => {
                 onClickDelete(id)
                 onClick(e)
@@ -72,7 +72,7 @@ export default function Menu({
               className='px-3 py-1 mr-2 bg-red-400 rounded-md'
             >
               Delete
-            </button>
+            </button> */}
           </div>
         </main>
       </div>

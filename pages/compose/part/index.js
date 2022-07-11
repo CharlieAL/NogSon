@@ -1,14 +1,20 @@
+import Button from 'components/Button'
 import DataList from 'components/DataList'
 import Header from 'components/header'
 import Input from 'components/Input'
 import Nav from 'components/Nav'
 import { useEffect, useState } from 'react'
-import { getPiezas } from 'service/parts'
+import { getMaterials } from 'service/materials'
+import { createPart } from 'service/parts'
+import { getScrap } from 'service/scrap'
 
 export default function index() {
-  const [nombre, setNombre] = useState('')
-  const [piezas, setPiezas] = useState([])
+  const [searchScrap, setSearchScrap] = useState(false)
+  const [nameMaterial, setNameMaterial] = useState('')
+  const [nameScrap, setNameScrap] = useState('')
+  const [message, setMessage] = useState('')
   const [part, setPart] = useState({
+    nombre: '',
     precio: '',
     descripcion: '',
     cantidad: '',
@@ -16,75 +22,144 @@ export default function index() {
     ancho: '',
     minStock: '',
     materiales: {
-      _id: '',
       nombre: '',
-      cantidadUsada: ''
+      areaOnePice: ''
     }
   })
+  const [scrap, setScrap] = useState({
+    nombre: '',
+    descripcion: '',
+    area: ''
+  })
+  const [materialesMedidas, setMaterialesMedidas] = useState({
+    nombre: '',
+    descripcion: '',
+    alto: '',
+    ancho: '',
+    cantidad: ''
+  })
+  const [scrapMedidas, setScrapMedidas] = useState({
+    area: '',
+    status: ''
+  })
+  const [scraps, setScraps] = useState([])
+  const [materials, setMaterials] = useState([])
   useEffect(() => {
-    getPiezas().then((data) => {
-      setPiezas(data)
+    getMaterials().then((data) => {
+      setMaterials(data)
+    })
+    getScrap().then((data) => {
+      setScraps(data)
     })
   }, [])
-  const handleChangeList = (nombre) => {
-    setNombre(nombre)
-    const result = piezas.find((item) => item.nombre === nombre)
-    console.log(result)
+
+  function messageTime(message) {
+    setMessage(message)
+    setTimeout(() => {
+      setMessage(null)
+    }, 6000)
+  }
+
+  const handleChangeDataMaterial = (name) => {
+    setNameMaterial(name)
+    const result = materials.find((item) => item.nombre === name)
     if (result === undefined) return
-    if (result.materiales === undefined) {
+    setPart({
+      ...part,
+      materiales: {
+        ...part.materiales,
+        nombre: result.nombre
+      }
+    })
+    setMaterialesMedidas({
+      ...materialesMedidas,
+      nombre: result.nombre,
+      descripcion: result.descripcion,
+      alto: result.altura,
+      ancho: result.largo,
+      cantidad: result.cantidad
+    })
+  }
+
+  const handleChangeDataScrap = (name) => {
+    setNameScrap(name)
+    const result = scraps.find((item) => item.nombre === name)
+    if (result === undefined) return
+    setScrapMedidas({
+      ...scrapMedidas,
+      area: result.area,
+      status: result.status
+    })
+  }
+
+  const handleAreaMaterial = () => {
+    if (!searchScrap) {
+      const areaM = materialesMedidas.alto * materialesMedidas.ancho
+      const areaP = part.alto * part.ancho
       setPart({
         ...part,
-        precio: result.precio,
-        descripcion: result.descripcion,
-        cantidad: result.cantidad,
-        alto: result.alto || '',
-        ancho: result.largo || '',
-        minStock: result.minStock
-      })
-    } else {
-      setPart({
-        ...part,
-        precio: result.precio,
-        descripcion: result.descripcion,
-        cantidad: result.cantidad,
-        alto: result.alto || '',
-        ancho: result.largo || '',
-        minStock: result.minStock,
         materiales: {
-          _id: result.materiales._id,
-          nombre: result.materiales.nombre || '',
-          cantidadUsada: result.materiales.cantidadUsada || ''
+          ...part.materiales,
+          areaOnePice: areaP
         }
       })
+      const areaPTotal = areaP * part.cantidad
+      if (part.cantidad === '')
+        return messageTime(`la cantidad maxima es:${Math.floor(areaM / areaP)}`)
+      if (areaPTotal > areaM)
+        return messageTime(`solo se pueden crear ${Math.floor(areaM / areaP)}`)
+      const areaRestante = areaM - areaPTotal
+      messageTime('sucesfully')
+      setScrap({
+        ...scrap,
+        nombre: materialesMedidas.nombre,
+        descripcion: materialesMedidas.descripcion,
+        area: areaRestante
+      })
+      return { areaRestante }
+    } else {
+      console.log(materialesMedidas, 'scrap')
     }
   }
 
-  const handleonSubmit = (e) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault()
-    console.log(part)
+    const body = {
+      part,
+      scrap
+    }
+    createPart(body)
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
   return (
     <>
-      <Header text='Part Compose'></Header>
+      <Header text='Part Compose'>
+        <Button onClick={handleOnSubmit}>save</Button>
+      </Header>
       <section>
         <main>
-          <form onSubmit={handleonSubmit}>
-            <div className='p-14 px-2 mobile:p-3 grid mobile:grid-cols-2 gap-2'>
+          <div>
+            <div className='p-5 px-2 mobile:p-3 grid mobile:grid-cols-2 gap-2'>
               <div className='text-center'>
-                <DataList
+                <Input
                   id={'piezas'}
-                  data={piezas}
                   label={'Name'}
                   placeholder={'Name'}
                   onChange={(e) => {
-                    handleChangeList(e.target.value)
+                    setPart({ ...part, nombre: e.target.value })
                   }}
-                  value={nombre}
+                  value={part.nombre}
                 />
               </div>
               <div className='text-center'>
                 <Input
                   label={'Price'}
+                  type={'number'}
                   placeholder={'price'}
                   onChange={(e) => {
                     setPart({ ...part, precio: e.target.value })
@@ -104,6 +179,29 @@ export default function index() {
               </div>
               <div className='text-center'>
                 <Input
+                  label={'MinStock'}
+                  placeholder={'MinStock'}
+                  onChange={(e) => {
+                    setPart({ ...part, minStock: e.target.value })
+                  }}
+                  value={part.minStock}
+                />
+                <Input
+                  type={'checkbox'}
+                  label={'Buscar En Scrap'}
+                  onChange={(e) => {
+                    setSearchScrap(e.target.checked)
+                  }}
+                  value={searchScrap}
+                />
+              </div>
+            </div>
+            <p className='text-center text-xl font-light text-yellow-400'>
+              {message}
+            </p>
+            <div className='text-center flex flex-wrap justify-center'>
+              <div className='text-center'>
+                <Input
                   label={'Quantity'}
                   placeholder={'Quantity'}
                   onChange={(e) => {
@@ -112,17 +210,7 @@ export default function index() {
                   value={part.cantidad}
                 />
               </div>
-              <div className='text-center'>
-                <Input
-                  label={'MinStock'}
-                  placeholder={'MinStock'}
-                  onChange={(e) => {
-                    setPart({ ...part, minStock: e.target.value })
-                  }}
-                  value={part.minStock}
-                />
-              </div>
-              <div className='text-center flex flex-wrap justify-center'>
+              <div className='text-center mx-3'>
                 <Input
                   label={'Height'}
                   placeholder={'Height'}
@@ -132,7 +220,8 @@ export default function index() {
                   }}
                   value={part.alto}
                 />
-                <p className='p-1'></p>
+              </div>
+              <div className='text-center'>
                 <Input
                   label={'Width'}
                   placeholder={'Width'}
@@ -144,40 +233,72 @@ export default function index() {
                 />
               </div>
             </div>
-            <div className='text-center flex flex-wrap justify-center'>
-              <Input
-                label={'Material Name'}
-                placeholder={'Name'}
-                onChange={(e) => {
-                  setPart({
-                    ...part,
-                    materiales: {
-                      ...part.materiales,
-                      nombre: e.target.value
-                    }
-                  })
-                }}
-                value={part.materiales.nombre}
-              />
-              <p className='p-1'></p>
-              <Input
-                label={'Amount Used'}
-                placeholder={'Amount'}
-                type={'number'}
-                onChange={(e) => {
-                  setPart({
-                    ...part,
-                    materiales: {
-                      ...part.materiales,
-                      cantidadUsada: e.target.value
-                    }
-                  })
-                }}
-                value={part.materiales.cantidadUsada}
-              />
+            {!searchScrap ? (
+              <div className='text-center flex flex-wrap justify-center'>
+                <DataList
+                  id={'materials'}
+                  label={'Material Name'}
+                  placeholder={'Name'}
+                  data={materials}
+                  onChange={(e) => {
+                    handleChangeDataMaterial(e.target.value)
+                  }}
+                  value={nameMaterial}
+                />
+                <div className='text-center mx-3'>
+                  <Input
+                    label={'Height'}
+                    placeholder={'Height'}
+                    type={'number'}
+                    readOnly={true}
+                    value={materialesMedidas.alto}
+                  />
+                </div>
+                <div className='text-center'>
+                  <Input
+                    label={'Width'}
+                    placeholder={'Width'}
+                    type={'number'}
+                    readOnly={true}
+                    value={materialesMedidas.ancho}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className='text-center flex flex-wrap justify-center'>
+                <DataList
+                  id={'materials'}
+                  label={'Scrap Name'}
+                  placeholder={'Name'}
+                  data={scraps}
+                  onChange={(e) => {
+                    handleChangeDataScrap(e.target.value)
+                  }}
+                  value={nameScrap}
+                />
+                <div className='text-center mx-3'>
+                  <Input
+                    label={'Area'}
+                    placeholder={'Area'}
+                    type={'number'}
+                    readOnly={true}
+                    value={scrapMedidas.area}
+                  />
+                </div>
+                <div className='text-center'>
+                  <Input
+                    label={'Status Material'}
+                    placeholder={'Status'}
+                    readOnly={true}
+                    value={scrapMedidas.status}
+                  />
+                </div>
+              </div>
+            )}
+            <div className='text-center mt-5'>
+              <button onClick={handleAreaMaterial}>calcular</button>
             </div>
-            <button></button>
-          </form>
+          </div>
         </main>
       </section>
       <Nav></Nav>

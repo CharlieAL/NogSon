@@ -4,8 +4,9 @@ export default function Header({ text = '', children = ' ' }) {
   return (
     <>
       <header>
-        <div className='pl-4 absolute'>
+        <div className='pl-4 absolute flex'>
           <img src='/LogoApp.png' />
+          <p className='text-xs font-extralight ml-2'>🔴 Dev</p>
         </div>
         <div className=' flex-1'>
           <p className='font-thin '>{text}</p>

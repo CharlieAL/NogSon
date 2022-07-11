@@ -1,5 +1,6 @@
+import axios from 'axios'
 export function getPiezasFormProducts(data) {
-  const fetchUrl = `${process.env.NOG_URL}/api/piezas/compose`
+  const fetchUrl = `http://localhost:3000/api/piezas/compose`
 
   return fetch(fetchUrl, {
     method: 'POST',
@@ -10,6 +11,11 @@ export function getPiezasFormProducts(data) {
       return response
     })
     .catch((err) => console.log(err))
+}
+
+export async function createPart(body) {
+  const res = await axios.post(`/api/piezas`, body)
+  return res.data
 }
 
 export async function getPiezas() {

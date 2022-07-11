@@ -1,4 +1,6 @@
+import Material from 'models/Material'
 import Part from 'models/Part'
+import Scrap from 'models/Scrap'
 import { dbConnection } from 'utils/db'
 
 dbConnection()
@@ -12,8 +14,23 @@ export default async function handler(req, res) {
   } else if (method === 'POST') {
     // si se crea una pieza de 2x2 y se utiliza un material de 10x10 se debe pasar a scrap y su valor 8x8,
     const { body } = req
-    const { nombre, precio, descripcion, cantidad, materiales, minStock } = body
+    const { nombre, precio, descripcion, cantidad, materiales, minStock } =
+      body.part
+
     // restar cantidad de materiales
+    const material = await Material.findOne({ nombre: materiales.nombre })
+    const cantidadQuedante = material.cantidad - 1
+    await Material.findOneAndUpdate(
+      { nombre: materiales.nombre },
+      { cantidad: cantidadQuedante }
+    )
+    try {
+      const newScrap = await new Scrap(body.scrap)
+      newScrap.save()
+    } catch (error) {
+      return res.status(400).json({ error: 'Error al crear el scrap' })
+    }
+
     const pieza = {
       nombre,
       precio,

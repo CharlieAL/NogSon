@@ -2,7 +2,9 @@ import Button from 'components/Button'
 import Header from 'components/header'
 import Nav from 'components/Nav'
 import RenderTables from 'components/RenderTable'
+import RenderTableScrap from 'components/RenderTable/scrap'
 import { useEffect, useState } from 'react'
+import { getScrap } from 'service/scrap'
 export default function Graphs() {
   const [estado, setEstado] = useState({
     part: true,
@@ -12,7 +14,9 @@ export default function Graphs() {
   const [parts, setParts] = useState([])
   const [materials, setMaterials] = useState([])
   const [data, setData] = useState([])
+  const [scrap, setScrap] = useState([])
 
+  // hacer un backend para obtener los datos
   useEffect(() => {
     fetch('/api/piezas')
       .then((res) => res.json())
@@ -26,6 +30,11 @@ export default function Graphs() {
       .then((data) => {
         setMaterials(data)
       })
+  }, [estado])
+  useEffect(() => {
+    getScrap().then((data) => {
+      setScrap(data)
+    })
   }, [estado])
 
   const handleClick = (e) => {
@@ -42,24 +51,14 @@ export default function Graphs() {
         part: false,
         material: true
       })
-      const array = materials.filter((material) => {
-        if (!material.scrap) {
-          return material
-        }
-      })
-      setData(array)
+      setData(materials)
     } else if (e.target.id === 'scrap') {
       setEstado({
         scrap: true,
         part: false,
         material: false
       })
-      const array = materials.filter((material) => {
-        if (material.scrap) {
-          return material
-        }
-      })
-      setData(array)
+      setData(scrap)
     }
   }
 
@@ -102,7 +101,11 @@ export default function Graphs() {
           {data[0] === undefined ? (
             <RenderTables data={parts} />
           ) : (
-            <RenderTables data={data} />
+            <>
+              {estado.part && <RenderTables data={parts} />}
+              {estado.material && <RenderTables data={materials} />}
+              {estado.scrap && <RenderTableScrap data={scrap} />}
+            </>
           )}
         </div>
       </section>
