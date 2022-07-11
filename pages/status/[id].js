@@ -197,6 +197,5 @@ StatusProduc.getInitialProps = async (ctx) => {
   const data = await fetch(`https://nogson.vercel.app/api/productos/${id}`)
   const producto = await data.json()
   const piezas = await getPiezasFormProducts(producto.piezas)
-  console.log(piezas)
   return { producto, piezas }
 }

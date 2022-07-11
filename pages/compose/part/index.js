@@ -305,7 +305,7 @@ export default function index() {
       <style jsx>{`
         section {
           flex: 1;
-          overflow-y: hidden;
+          overflow-y: auto;
         }
       `}</style>
     </>
