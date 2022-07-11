@@ -194,7 +194,7 @@ export default function StatusProduc(props) {
 StatusProduc.getInitialProps = async (ctx) => {
   const { query } = ctx
   const { id } = query
-  const data = await fetch(`http://localhost:3000/api/productos/${id}`)
+  const data = await fetch(`https://nogson.vercel.app/api/productos/${id}`)
   const producto = await data.json()
   const piezas = await getPiezasFormProducts(producto.piezas)
   console.log(piezas)

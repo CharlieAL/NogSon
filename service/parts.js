@@ -1,6 +1,6 @@
 import axios from 'axios'
 export function getPiezasFormProducts(data) {
-  const fetchUrl = `http://localhost:3000/api/piezas/compose`
+  const fetchUrl = `https://nogson.vercel.app/api/piezas/compose`
 
   return fetch(fetchUrl, {
     method: 'POST',
