@@ -1,6 +1,6 @@
 import axios from 'axios'
-export function getPiezasFormProducts(data) {
-  const fetchUrl = `http://localhost:3000/api/piezas/compose`
+export function getPiezasFormProducts(data, URL) {
+  const fetchUrl = `${URL}/api/piezas/compose`
 
   return fetch(fetchUrl, {
     method: 'POST',

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { createFinishGood } from 'service/pendingProduct'
 import { getPiezasFormProducts } from 'service/parts'
+import { URLNogSon } from 'utils/URL'
 
 export default function StatusProduc(props) {
   const { piezas = [], producto } = props
@@ -214,10 +215,11 @@ export default function StatusProduc(props) {
 }
 
 StatusProduc.getInitialProps = async (ctx) => {
+  const URL = URLNogSon(true)
   const { query } = ctx
   const { id } = query
-  const data = await fetch(`http://localhost:3000/api/productos/${id}`)
+  const data = await fetch(`${URL}/api/productos/${id}`)
   const producto = await data.json()
-  const piezas = await getPiezasFormProducts(producto.piezas)
+  const piezas = await getPiezasFormProducts(producto.piezas, URL)
   return { producto, piezas }
 }
