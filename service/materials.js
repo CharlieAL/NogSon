@@ -14,3 +14,13 @@ export async function createMaterial(body) {
     return error
   }
 }
+
+export async function getMaterial(id) {
+  const res = await axios.get(`/api/materials/${id}`)
+  return res.data
+}
+
+export async function updateMaterial(id, body) {
+  const res = await axios.put(`/api/materials/${id}`, body)
+  return res.data
+}

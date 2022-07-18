@@ -29,7 +29,9 @@ const partSchema = new Schema(
       default: 10
     },
     materiales: {
+      id: { type: Schema.Types.ObjectId },
       nombre: { type: String },
+      descripcion: { type: String },
       areaOnePice: { type: Number }
     }
   },

@@ -28,17 +28,8 @@ export default async function handler(req, res) {
     res.status(200).json(materiales)
   } else if (method === 'POST') {
     const { body } = req
-    const {
-      id,
-      nombre,
-      precio,
-      descripcion,
-      cantidad,
-      scrap,
-      pieza,
-      finded,
-      minStock
-    } = body
+    const { nombre, precio, descripcion, cantidad, scrap, pieza, minStock } =
+      body
     if (
       nombre === '' ||
       precio === '' ||
@@ -49,25 +40,7 @@ export default async function handler(req, res) {
         .status(400)
         .json({ error: 'Name, Price, Description y Quantity are required' })
     }
-    if (finded) {
-      try {
-        const cantindadInt = parseInt(cantidad)
-        console.log(body)
-        const data = await Material.findByIdAndUpdate(
-          id,
-          { cantidad: cantindadInt },
-          {
-            new: true
-          }
-        )
-        console.log(data)
-        return res.status(201).json(data)
-      } catch (error) {
-        return res
-          .status(400)
-          .json({ error: 'Error al actualizar el material' })
-      }
-    } else if (pieza) {
+    if (pieza) {
       try {
         const part = new Part({
           nombre,

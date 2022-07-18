@@ -14,10 +14,11 @@ export default async function handler(req, res) {
 
       const data = JSON.parse(body)
       for (const part of data) {
-        const partComplete = await Part.find({ nombre: part.nombre })
+        const partComplete = await Part.find({ descripcion: part.nombre })
         const cantidadTotal = partComplete[0].cantidad
         part.cantidadTotal = cantidadTotal
-        part.descripcion = partComplete[0].descripcion
+        part.descripcion = partComplete[0].nombre
+        part.id = partComplete[0].id
         array.push(part)
       }
       return res.status(200).json(array)

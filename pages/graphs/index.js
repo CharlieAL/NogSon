@@ -2,10 +2,13 @@ import Button from 'components/Button'
 import Header from 'components/header'
 import Nav from 'components/Nav'
 import RenderTables from 'components/RenderTable'
+import RenderTablesMaterial from 'components/RenderTable/material'
 import RenderTableScrap from 'components/RenderTable/scrap'
+import useUser from 'hooks/useUser'
 import { useEffect, useState } from 'react'
 import { getScrap } from 'service/scrap'
 export default function Graphs() {
+  const user = useUser()
   const [estado, setEstado] = useState({
     part: true,
     material: false,
@@ -23,19 +26,19 @@ export default function Graphs() {
       .then((data) => {
         setParts(data)
       })
-  }, [estado])
+  }, [user])
   useEffect(() => {
     fetch('/api/materials')
       .then((res) => res.json())
       .then((data) => {
         setMaterials(data)
       })
-  }, [estado])
+  }, [user])
   useEffect(() => {
     getScrap().then((data) => {
       setScrap(data)
     })
-  }, [estado])
+  }, [user])
 
   const handleClick = (e) => {
     if (e.target.id === 'part') {
@@ -103,7 +106,7 @@ export default function Graphs() {
           ) : (
             <>
               {estado.part && <RenderTables data={parts} />}
-              {estado.material && <RenderTables data={materials} />}
+              {estado.material && <RenderTablesMaterial data={materials} />}
               {estado.scrap && <RenderTableScrap data={scrap} />}
             </>
           )}

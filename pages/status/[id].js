@@ -8,7 +8,8 @@ import { createFinishGood } from 'service/pendingProduct'
 import { getPiezasFormProducts } from 'service/parts'
 
 export default function StatusProduc(props) {
-  const { piezas, producto } = props
+  const { piezas = [], producto } = props
+  const [show, setShow] = useState(false)
   const router = useRouter()
   const [error, setError] = useState('')
   const [finishGood, setFinishGood] = useState({
@@ -35,128 +36,153 @@ export default function StatusProduc(props) {
   if (producto === null) {
     return <p>Loading.....</p>
   }
+  const handlePrint = (e) => {
+    e.preventDefault()
+    window.print()
+  }
   return (
     <>
-      <Header>
-        <Button
-          className={'bg-green-600 text-white hover:bg-green-800'}
-          onClick={handleSubmit}
-        >
-          Finish
-        </Button>
-      </Header>
+      {!show && (
+        <Header>
+          <Button
+            className={'bg-green-600 text-white hover:bg-green-800'}
+            onClick={handleSubmit}
+          >
+            Finish
+          </Button>
+        </Header>
+      )}
       <section>
-        <form
-          onSubmit={handleSubmit}
-          className=' px-2 mobile:p-3 grid mobile:grid-cols-2 gap-2'
-        >
-          <div className='text-center'>
-            <Input
-              label={'Name'}
-              placeholder='Name'
-              defaultValue={producto.nombre}
-              disabled={true}
-            />
-          </div>
-          <div className='text-center'>
-            <Input
-              label={'Price'}
-              type='number'
-              placeholder='Price'
-              defaultValue={producto.precio}
-              disabled={true}
-            />
-          </div>
-          <div className='text-center'>
-            <Input
-              placeholder='description'
-              type={'text'}
-              label={'Description'}
-              defaultValue={producto.descripcion}
-              disabled={true}
-            />
-          </div>
-          <div className='text-center'>
-            <Input
-              placeholder='Custumer'
-              type={'text'}
-              label={'Custumer'}
-              onChange={({ target }) => handleChange('cliente', target.value)}
-              value={finishGood.cliente}
-            />
-          </div>
-          <div className='text-center'>
-            <Input
-              placeholder='Buyer'
-              type={'text'}
-              label={'Buyer'}
-              onChange={({ target }) => handleChange('comprador', target.value)}
-              value={finishGood.comprador}
-            />
-          </div>
-          <div className='text-center'>
-            <Input
-              placeholder='Sale Price'
-              type={'Number'}
-              label={'Sale Price'}
-              onChange={({ target }) =>
-                handleChange('precioVenta', target.value)
-              }
-              value={finishGood.precioVenta}
-            />
-          </div>
-          <div className='text-center'>
-            <Input
-              placeholder='Quantity'
-              type={'Number'}
-              label={'Quantity'}
-              onChange={({ target }) => handleChange('cantidad', target.value)}
-              value={finishGood.cantidad}
-            />
-          </div>
-          <button className='hidden'></button>
-        </form>
-        <article className='h-96 overflow-y-auto'>
-          {error && (
-            <p className='text-red-500 text-center font-light'>{error}</p>
-          )}
-          <div className='flex justify-center pt-1 overflow-y-auto'>
-            <table id='customers'>
-              <caption className='font-bold border-2 text-xl py-2'>
-                REQUIRED PARTS
-              </caption>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Units Needed </th>
-                  <th>Total Units</th>
-                </tr>
-              </thead>
-              <tbody>
-                {piezas.map((item, index) =>
-                  item.cantidadTotal < item.cantidad ? (
-                    <tr key={index}>
-                      <td className='text-red-500'>{item.nombre}</td>
-                      <td className='text-red-500'>{item.descripcion}</td>
-                      <td className='text-red-500'>{item.cantidad}U</td>
-                      <td className='text-red-500'>{item.cantidadTotal}U</td>
-                    </tr>
-                  ) : (
-                    <tr key={index}>
+        {show ? (
+          <>
+            <div className='text-center'>
+              <button
+                onClick={() => setShow(!show)}
+                className='text-2xl font-light  mt-2'
+              >
+                NOGSON. Piezas de {producto.nombre}
+              </button>
+            </div>
+            <div className='flex justify-center'>
+              <table id={'customers'}>
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>cantidad utilizada</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {piezas.map((item) => (
+                    <tr key={item.id}>
                       <td>{item.nombre}</td>
                       <td>{item.descripcion}</td>
-                      <td>{item.cantidad} U</td>
-                      <td>{item.cantidadTotal}U</td>
+                      <td>{item.cantidad}</td>
                     </tr>
-                  )
-                )}
-              </tbody>
-            </table>
-          </div>
-        </article>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className='text-center m-5'>
+              <Button onClick={handlePrint}>Print</Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <form
+              onSubmit={handleSubmit}
+              className=' px-2 mobile:p-3 grid mobile:grid-cols-2 gap-2'
+            >
+              <div className='text-center'>
+                <Input
+                  label={'Name'}
+                  placeholder='Name'
+                  defaultValue={producto.nombre}
+                  disabled={true}
+                />
+              </div>
+              <div className='text-center'>
+                <Input
+                  label={'Price'}
+                  type='number'
+                  placeholder='Price'
+                  defaultValue={producto.precio}
+                  disabled={true}
+                />
+              </div>
+              <div className='text-center'>
+                <Input
+                  placeholder='description'
+                  type={'text'}
+                  label={'Description'}
+                  defaultValue={producto.descripcion}
+                  disabled={true}
+                />
+              </div>
+              <div className='text-center'>
+                <Input
+                  placeholder='Custumer'
+                  type={'text'}
+                  label={'Custumer'}
+                  onChange={({ target }) =>
+                    handleChange('cliente', target.value)
+                  }
+                  value={finishGood.cliente}
+                />
+              </div>
+              <div className='text-center'>
+                <Input
+                  placeholder='Buyer'
+                  type={'text'}
+                  label={'Buyer'}
+                  onChange={({ target }) =>
+                    handleChange('comprador', target.value)
+                  }
+                  value={finishGood.comprador}
+                />
+              </div>
+              <div className='text-center'>
+                <Input
+                  placeholder='Sale Price'
+                  type={'Number'}
+                  label={'Sale Price'}
+                  onChange={({ target }) =>
+                    handleChange('precioVenta', target.value)
+                  }
+                  value={finishGood.precioVenta}
+                />
+              </div>
+              <div className='text-center'>
+                <Input
+                  placeholder='Quantity'
+                  type={'Number'}
+                  label={'Quantity'}
+                  onChange={({ target }) =>
+                    handleChange('cantidad', target.value)
+                  }
+                  value={finishGood.cantidad}
+                />
+              </div>
+              <button className='hidden'></button>
+            </form>
+            <article className='h-96 overflow-y-auto'>
+              {error && (
+                <p className='text-red-500 text-center font-light'>{error}</p>
+              )}
+              <div className='text-center mt-8'>
+                <Button
+                  onClick={() => {
+                    setShow(!show)
+                  }}
+                >
+                  Partes
+                </Button>
+              </div>
+            </article>
+          </>
+        )}
       </section>
-      <Nav></Nav>
+      {!show && <Nav></Nav>}
       <style jsx>{`
         section {
           flex: 1;
@@ -176,10 +202,6 @@ export default function StatusProduc(props) {
           text-align: center;
         }
 
-        #customers tr:hover {
-          background-color: #ddd;
-        }
-
         #customers th {
           padding-top: 8px;
           padding-bottom: 8px;
@@ -194,7 +216,7 @@ export default function StatusProduc(props) {
 StatusProduc.getInitialProps = async (ctx) => {
   const { query } = ctx
   const { id } = query
-  const data = await fetch(`https://nogson.vercel.app/api/productos/${id}`)
+  const data = await fetch(`http://localhost:3000/api/productos/${id}`)
   const producto = await data.json()
   const piezas = await getPiezasFormProducts(producto.piezas)
   return { producto, piezas }

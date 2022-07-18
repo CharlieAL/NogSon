@@ -5,7 +5,7 @@ content-type: application/json
 
 {
   "name":"carlos",
-  "password":"123"
+  "password":"3012001"
 }
 
 ###Register
@@ -13,8 +13,8 @@ POST http://localhost:3000/api/auth
 content-type: application/json
 
 {
-  "name":"carlos",
-  "passwordHash":"123",
+  "name":"ivan",
+  "passwordHash":"ivan1219",
   "level":"admin"
 }
 

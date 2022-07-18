@@ -3,12 +3,14 @@ import DataList from 'components/DataList'
 import Header from 'components/header'
 import Input from 'components/Input'
 import Nav from 'components/Nav'
+import useUser from 'hooks/useUser'
 import { useEffect, useState } from 'react'
 import { getMaterials } from 'service/materials'
 import { createPart } from 'service/parts'
 import { getScrap } from 'service/scrap'
 
 export default function index() {
+  useUser()
   const [searchScrap, setSearchScrap] = useState(false)
   const [nameMaterial, setNameMaterial] = useState('')
   const [nameScrap, setNameScrap] = useState('')
@@ -22,14 +24,17 @@ export default function index() {
     ancho: '',
     minStock: '',
     materiales: {
+      id: '',
       nombre: '',
+      descripcion: '',
       areaOnePice: ''
     }
   })
   const [scrap, setScrap] = useState({
     nombre: '',
     descripcion: '',
-    area: ''
+    area: '',
+    same: false
   })
   const [materialesMedidas, setMaterialesMedidas] = useState({
     nombre: '',
@@ -39,11 +44,13 @@ export default function index() {
     cantidad: ''
   })
   const [scrapMedidas, setScrapMedidas] = useState({
+    id: '',
     area: '',
     status: ''
   })
   const [scraps, setScraps] = useState([])
   const [materials, setMaterials] = useState([])
+  const [pathImage, setPathImage] = useState('')
   useEffect(() => {
     getMaterials().then((data) => {
       setMaterials(data)
@@ -62,12 +69,14 @@ export default function index() {
 
   const handleChangeDataMaterial = (name) => {
     setNameMaterial(name)
-    const result = materials.find((item) => item.nombre === name)
+    const result = materials.find((item) => item.descripcion === name)
     if (result === undefined) return
     setPart({
       ...part,
       materiales: {
         ...part.materiales,
+        id: result.id,
+        descripcion: result.descripcion,
         nombre: result.nombre
       }
     })
@@ -87,8 +96,20 @@ export default function index() {
     if (result === undefined) return
     setScrapMedidas({
       ...scrapMedidas,
+      id: result.id,
+      nombre: result.nombre,
       area: result.area,
+      descripcion: result.descripcion,
       status: result.status
+    })
+    setPart({
+      ...part,
+      materiales: {
+        ...part.materiales,
+        id: result.id,
+        descripcion: result.descripcion,
+        nombre: result.nombre
+      }
     })
   }
 
@@ -118,7 +139,30 @@ export default function index() {
       })
       return { areaRestante }
     } else {
-      console.log(materialesMedidas, 'scrap')
+      const areaP = part.alto * part.ancho
+      const areaM = scrapMedidas.area
+      const areaPTotal = areaP * part.cantidad
+      if (part.cantidad === '')
+        return messageTime(`la cantidad maxima es:${Math.floor(areaM / areaP)}`)
+      if (areaPTotal > areaM)
+        return messageTime(`solo se pueden crear ${Math.floor(areaM / areaP)}`)
+      const areaRestante = areaM - areaPTotal
+      setPart({
+        ...part,
+        materiales: {
+          ...part.materiales,
+          areaOnePice: areaP
+        }
+      })
+      setScrap({
+        ...scrap,
+        id: scrapMedidas.id,
+        nombre: scrapMedidas.nombre,
+        descripcion: scrapMedidas.descripcion,
+        area: areaRestante,
+        same: true
+      })
+      messageTime('sucesfully')
     }
   }
 
@@ -130,19 +174,69 @@ export default function index() {
     }
     createPart(body)
       .then((data) => {
-        console.log(data)
+        setPart({
+          ...part,
+          nombre: '',
+          precio: '',
+          descripcion: '',
+          cantidad: '',
+          alto: '',
+          ancho: '',
+          minStock: '',
+          materiales: {
+            nombre: '',
+            areaOnePice: ''
+          }
+        })
+        setScrap({
+          ...scrap,
+          nombre: '',
+          descripcion: '',
+          area: '',
+          same: false
+        })
+        setMaterialesMedidas({
+          ...materialesMedidas,
+          nombre: '',
+          descripcion: '',
+          alto: '',
+          ancho: '',
+          cantidad: ''
+        })
+        setScrapMedidas({
+          ...scrapMedidas,
+          id: '',
+          area: '',
+          status: ''
+        })
+        setNameMaterial('')
+        setNameScrap('')
       })
       .catch((error) => {
         console.log(error)
       })
   }
+
+  const handleFile = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0]
+      if (file.type.includes('image')) {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = (e) => {
+          setPathImage(e.target.result)
+        }
+      }
+    }
+  }
+
   return (
     <>
       <Header text='Part Compose'>
         <Button onClick={handleOnSubmit}>save</Button>
       </Header>
       <section>
-        <main>
+        <main className='mb-10'>
           <div>
             <div className='p-5 px-2 mobile:p-3 grid mobile:grid-cols-2 gap-2'>
               <div className='text-center'>
@@ -176,6 +270,13 @@ export default function index() {
                   }}
                   value={part.descripcion}
                 />
+                {/* <textarea
+                  onDragEnter={handleDragEnter}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  placeholder={'Image'}
+                ></textarea> */}
+                <Input type={'file'} onChange={handleFile} />
               </div>
               <div className='text-center'>
                 <Input
@@ -296,10 +397,17 @@ export default function index() {
               </div>
             )}
             <div className='text-center mt-5'>
-              <button onClick={handleAreaMaterial}>calcular</button>
+              <Button onClick={handleAreaMaterial}>calcular</Button>
             </div>
           </div>
         </main>
+        <div className='flex justify-center'>
+          <img
+            className='w-96 '
+            src={pathImage || '/logoApp.png'}
+            alt={'Image Here'}
+          />
+        </div>
       </section>
       <Nav></Nav>
       <style jsx>{`

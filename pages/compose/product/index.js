@@ -43,7 +43,7 @@ export default function ComposeProduct() {
   const handleChangeList = ({ value }) => {
     handleChangePieza('nombre', value)
     piezas.filter((data) => {
-      if (data.nombre.toLowerCase() === value.toLowerCase()) {
+      if (data.descripcion.toLowerCase() === value.toLowerCase()) {
         setMax(data.cantidad)
         return data
       } else {
@@ -171,7 +171,7 @@ export default function ComposeProduct() {
                 data={piezas}
                 id={'piezas'}
                 placeholder={'piezas'}
-                className={'w-28'}
+                className={'w-28 mobile:w-32'}
                 onChange={({ target }) => handleChangeList(target)}
                 value={pieza.nombre}
               />
@@ -181,7 +181,7 @@ export default function ComposeProduct() {
                 max={max}
                 placeholder={max}
                 type={'number'}
-                className={'w-24'}
+                className={'w-10'}
                 onChange={({ target }) =>
                   handleChangePieza('cantidad', target.value)
                 }

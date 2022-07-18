@@ -1,13 +1,13 @@
 import Button from 'components/Button'
-import DataList from 'components/DataList'
 import Header from 'components/header'
 import Input from 'components/Input'
 import Nav from 'components/Nav'
-import { useEffect, useState } from 'react'
-import { createMaterial, getMaterials } from 'service/materials'
+import useUser from 'hooks/useUser'
+import { useState } from 'react'
+import { createMaterial } from 'service/materials'
 
 export default function Index() {
-  const [nombre, setNombre] = useState('')
+  useUser()
   const [material, setMaterial] = useState({
     id: '',
     nombre: '',
@@ -21,13 +21,6 @@ export default function Index() {
   })
   const [statusButton, setStatusButton] = useState(false)
   const [message, setMessage] = useState(null)
-  const [materials, setMaterials] = useState([])
-
-  useEffect(() => {
-    getMaterials().then((materials) => {
-      setMaterials(materials)
-    })
-  }, [])
 
   const handleChange = (name, value) =>
     setMaterial({ ...material, [name]: value })
@@ -40,13 +33,11 @@ export default function Index() {
     setTimeout(() => {
       setStatusButton(false)
     }, 2000)
-    console.log(material)
     createMaterial(material)
       .then((data) => {
-        console.log(data, 'data page')
         setMaterial({
           ...material,
-          name: '',
+          nombre: '',
           precio: '',
           descripcion: '',
           cantidad: '',
@@ -55,7 +46,6 @@ export default function Index() {
           finded: false,
           pieza: false
         })
-        setNombre('')
         if (data === undefined) return messageTime('Error')
       })
       .catch((error) => {
@@ -71,30 +61,6 @@ export default function Index() {
     }, 6000)
   }
 
-  const handleClickSearch = (nombre) => {
-    setNombre(nombre)
-    const result = materials.find((material) => material.nombre === nombre)
-    if (result !== undefined) {
-      messageTime('Material encontrado')
-      setMaterial({
-        ...material,
-        id: result.id,
-        nombre: result.nombre,
-        precio: result.precio,
-        descripcion: result.descripcion,
-        cantidad: result.cantidad,
-        minStock: result.minStock,
-        finded: true
-      })
-    } else {
-      setMaterial({
-        ...material,
-        finded: false,
-        nombre
-      })
-      messageTime('Material not found, a new one will be created')
-    }
-  }
   return (
     <>
       <Header text='Material'>
@@ -115,15 +81,11 @@ export default function Index() {
         <form onSubmit={handleSubmit}>
           <div className='p-14 px-2 mobile:p-3 grid mobile:grid-cols-2 gap-2'>
             <div className='text-center'>
-              <DataList
+              <Input
                 label={'Search material'}
                 placeholder='Enter Name'
-                data={materials}
-                id={materials}
-                value={nombre}
-                onChange={(e) => {
-                  handleClickSearch(e.target.value)
-                }}
+                value={material.nombre}
+                onChange={(e) => handleChange('nombre', e.target.value)}
               />
             </div>
             <div className='text-center'>

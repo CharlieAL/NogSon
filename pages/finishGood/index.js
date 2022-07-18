@@ -1,9 +1,11 @@
 import Header from 'components/header'
 import Nav from 'components/Nav'
+import useUser from 'hooks/useUser'
 import { useEffect, useState } from 'react'
 import { getFinishGood, updateFinishGood } from 'service/pendingProduct'
 
 export default function finishGood() {
+  useUser()
   const [finishGood, setFinishGood] = useState([])
   const [update, setUpdate] = useState(false)
 

@@ -26,6 +26,12 @@ export default function Nav() {
             <div>Part</div>
           </a>
         </Link>
+
+        <Link href={'/compose/material'}>
+          <a className='flex h-full justify-center'>
+            <div>M</div>
+          </a>
+        </Link>
         <Link href={'/compose/pending'}>
           <a className='flex h-full justify-center'>
             <div>Stock</div>
@@ -36,11 +42,6 @@ export default function Nav() {
             <div>Inv</div>
           </a>
         </Link>
-        <Link href={'/compose/material'}>
-          <a className='flex h-full justify-center'>
-            <div>M</div>
-          </a>
-        </Link>
         <Link href={'/finishGood'}>
           <a className='flex h-full justify-center'>
             <div>FG</div>
@@ -49,7 +50,7 @@ export default function Nav() {
       </nav>
       <style jsx>{`
         nav {
-          border-bottom: 1px solid #eaeaea;
+          border-top: 1px solid #eaeaea;
           background: #ffffffaa;
           backdrop-filter: blur(5px);
           width: 100%;

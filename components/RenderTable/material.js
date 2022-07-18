@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function RenderTables({ data }) {
+export default function RenderTablesMaterial({ data }) {
   return (
     <>
       <table id='customers'>
@@ -15,7 +15,7 @@ export default function RenderTables({ data }) {
         </thead>
         <tbody>
           {data.map((item, index) => (
-            <Link key={item.id} href={`/compose/part/${item.id}`}>
+            <Link key={item.id} href={`compose/material/${item.id}`}>
               <tr
                 key={item.id}
                 className={

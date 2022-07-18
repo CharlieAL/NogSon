@@ -16,19 +16,30 @@ export default async function handler(req, res) {
     const { body } = req
     const { nombre, precio, descripcion, cantidad, materiales, minStock } =
       body.part
-
-    // restar cantidad de materiales
-    const material = await Material.findOne({ nombre: materiales.nombre })
-    const cantidadQuedante = material.cantidad - 1
-    await Material.findOneAndUpdate(
-      { nombre: materiales.nombre },
-      { cantidad: cantidadQuedante }
-    )
-    try {
-      const newScrap = await new Scrap(body.scrap)
-      newScrap.save()
-    } catch (error) {
-      return res.status(400).json({ error: 'Error al crear el scrap' })
+    const { same, id } = body.scrap
+    console.log(body.scrap)
+    if (same) {
+      try {
+        await Scrap.findByIdAndUpdate(id, body.scrap)
+      } catch (error) {
+        console.log(error)
+      }
+      console.log('scrap updated')
+    } else {
+      console.log('entro')
+      // restar cantidad de materiales
+      const material = await Material.findOne({ nombre: materiales.nombre })
+      const cantidadQuedante = material.cantidad - 1
+      await Material.findOneAndUpdate(
+        { nombre: materiales.nombre },
+        { cantidad: cantidadQuedante }
+      )
+      try {
+        const newScrap = await new Scrap(body.scrap)
+        newScrap.save()
+      } catch (error) {
+        return res.status(400).json({ error: 'Error al crear el scrap' })
+      }
     }
 
     const pieza = {
