@@ -71,6 +71,7 @@ export default function StatusProduc(props) {
                     <th>Nombre</th>
                     <th>Descripcion</th>
                     <th>cantidad utilizada</th>
+                    <th>medidas</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -79,6 +80,9 @@ export default function StatusProduc(props) {
                       <td>{item.nombre}</td>
                       <td>{item.descripcion}</td>
                       <td>{item.cantidad}</td>
+                      <td>
+                        {item.alto} x {item.ancho}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -179,6 +183,15 @@ export default function StatusProduc(props) {
                   Partes
                 </Button>
               </div>
+              <div className='text-center mt-8'>
+                <Button
+                  onClick={() => {
+                    setShow(!show)
+                  }}
+                >
+                  Partes
+                </Button>
+              </div>
             </article>
           </>
         )}
@@ -215,7 +228,7 @@ export default function StatusProduc(props) {
 }
 
 StatusProduc.getInitialProps = async (ctx) => {
-  const URL = URLNogSon(true)
+  const URL = URLNogSon()
   const { query } = ctx
   const { id } = query
   const data = await fetch(`${URL}/api/productos/${id}`)

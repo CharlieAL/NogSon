@@ -72,6 +72,7 @@ export default function Main() {
               descripction={data.descripcion}
               price={data.precio}
               id={data.id}
+              img={data.imageURL}
               index={index}
             />
           ))}

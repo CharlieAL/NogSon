@@ -14,8 +14,17 @@ export default async function handler(req, res) {
   } else if (method === 'POST') {
     // si se crea una pieza de 2x2 y se utiliza un material de 10x10 se debe pasar a scrap y su valor 8x8,
     const { body } = req
-    const { nombre, precio, descripcion, cantidad, materiales, minStock } =
-      body.part
+    const { imageURL } = body
+    const {
+      nombre,
+      precio,
+      descripcion,
+      cantidad,
+      materiales,
+      minStock,
+      alto,
+      ancho
+    } = body.part
     const { same, id } = body.scrap
     console.log(body.scrap)
     if (same) {
@@ -48,7 +57,10 @@ export default async function handler(req, res) {
       descripcion,
       cantidad,
       materiales,
-      minStock
+      minStock,
+      alto,
+      ancho,
+      imageURL
     }
     try {
       const newPieza = await new Part(pieza)

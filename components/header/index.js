@@ -6,7 +6,7 @@ export default function Header({ text = '', children = ' ' }) {
       <header>
         <div className='pl-4 absolute flex'>
           <img src='/LogoApp.png' />
-          <p className='text-xs font-extralight ml-2'>🔴 Dev</p>
+          <p className='text-xs font-extralight ml-2'>🔴 Alfa 1.0</p>
         </div>
         <div className=' flex-1'>
           <p className='font-thin '>{text}</p>

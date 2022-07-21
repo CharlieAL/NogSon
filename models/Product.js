@@ -17,6 +17,10 @@ const productSchema = new Schema(
 
       trim: true
     },
+    imageURL: {
+      type: String,
+      default: ''
+    },
     piezas: [
       {
         nombre: { type: String, ref: 'Pieza' },

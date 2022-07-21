@@ -19,6 +19,9 @@ export default async function handler(req, res) {
         part.cantidadTotal = cantidadTotal
         part.descripcion = partComplete[0].nombre
         part.id = partComplete[0].id
+        part.alto = partComplete[0].alto
+        part.ancho = partComplete[0].ancho
+        part.imageURL = partComplete[0].imageURL
         array.push(part)
       }
       return res.status(200).json(array)

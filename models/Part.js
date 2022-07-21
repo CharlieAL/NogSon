@@ -28,6 +28,10 @@ const partSchema = new Schema(
       type: Number,
       default: 10
     },
+    imageURL: {
+      type: String,
+      default: ''
+    },
     materiales: {
       id: { type: Schema.Types.ObjectId },
       nombre: { type: String },

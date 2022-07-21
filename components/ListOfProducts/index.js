@@ -9,7 +9,8 @@ export default function ListProducts({
   price,
   onClickUpdate,
   onClickDelete,
-  index
+  index,
+  img
 }) {
   const [show, setShow] = useState(false)
   const handleClick = (e) => {
@@ -35,7 +36,10 @@ export default function ListProducts({
         <Link href={`/status/${id}`}>
           <div className='cursor-pointer h-64 hover:border-2'>
             <img
-              src='https://www.3dcontentcentral.com/showmodels/CONTENTCENTRAL/carrito-1/carrito1374543333.JPG'
+              src={
+                img ||
+                'https://www.3dcontentcentral.com/showmodels/CONTENTCENTRAL/carrito-1/carrito1374543333.JPG'
+              }
               alt='producto'
             />
 

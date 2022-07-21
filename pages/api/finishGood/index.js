@@ -41,9 +41,7 @@ export default async function handler(req, res) {
     try {
       const finishGoods = await FinishGood.find().populate('productoId', {
         _id: 0,
-        nombre: 1,
-        precio: 1,
-        descripcion: 1
+        nombre: 1
       })
       let total = 0
       let precio

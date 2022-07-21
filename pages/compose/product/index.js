@@ -6,6 +6,7 @@ import Nav from 'components/Nav'
 import useUser from 'hooks/useUser'
 import { useState, useEffect } from 'react'
 import { createProduct } from 'service/products'
+import uploadImage from 'service/uploadImage'
 
 export default function ComposeProduct() {
   useUser()
@@ -26,7 +27,8 @@ export default function ComposeProduct() {
     precio: '',
     descripcion: ''
   })
-
+  const [imageSelected, setImageSelected] = useState('')
+  const [pathImage, setPathImage] = useState('')
   useEffect(() => {
     fetch('/api/piezas')
       .then((res) => res.json())
@@ -54,33 +56,40 @@ export default function ComposeProduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const newProduct = {
-      nombre: producto.nombre,
-      precio: producto.precio,
-      descripcion: producto.descripcion,
-      piezas: array
-    }
-    createProduct(newProduct)
-      .then((data) => {
-        setProducto({
-          nombre: '',
-          img: '',
-          precio: '',
-          descripcion: ''
-        })
-        setArray([])
-        setMax(0)
-        setUpdate(!update)
-        setStatusButton(true)
-        setTimeout(() => {
-          setStatusButton(false)
-        }, 2000)
+    uploadImage(imageSelected)
+      .then((imageURL) => {
+        const newProduct = {
+          nombre: producto.nombre,
+          precio: producto.precio,
+          descripcion: producto.descripcion,
+          imageURL,
+          piezas: array
+        }
+        return newProduct
       })
-      .catch((err) => {
-        setError(err.response.data.error)
-        setTimeout(() => {
-          setError('')
-        }, 3000)
+      .then((newProduct) => {
+        createProduct(newProduct)
+          .then((data) => {
+            setProducto({
+              nombre: '',
+              img: '',
+              precio: '',
+              descripcion: ''
+            })
+            setArray([])
+            setMax(0)
+            setUpdate(!update)
+            setStatusButton(true)
+            setTimeout(() => {
+              setStatusButton(false)
+            }, 2000)
+          })
+          .catch((err) => {
+            setError(err.response.data.error)
+            setTimeout(() => {
+              setError('')
+            }, 3000)
+          })
       })
   }
 
@@ -102,6 +111,20 @@ export default function ComposeProduct() {
         setTimeout(() => {
           setError('')
         }, 3000)
+      }
+    }
+  }
+
+  const handleFile = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0]
+      setImageSelected(file)
+      if (file.type.includes('image')) {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = (e) => {
+          setPathImage(e.target.result)
+        }
       }
     }
   }
@@ -155,6 +178,7 @@ export default function ComposeProduct() {
             <Input
               label={'image'}
               type={'file'}
+              onChange={handleFile}
               className={
                 ' text-sm text-slate-500 file:rounded-full file:bg-black file:px-2 file:py-1 file:border-none file:text-white file:text-sm '
               }
@@ -215,6 +239,9 @@ export default function ComposeProduct() {
               </div>
             </article>
           ))}
+        </div>
+        <div className='flex justify-center'>
+          <img className='w-56' src={pathImage || '/logoApp.png'} />
         </div>
       </section>
       <Nav></Nav>

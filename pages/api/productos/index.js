@@ -13,14 +13,15 @@ export default async function handler(req, res) {
       .populate('piezas')
     res.status(200).json(products)
   } else if (method === 'POST') {
-    const { nombre, precio, descripcion, piezas } = body
+    const { nombre, precio, descripcion, piezas, imageURL } = body
 
     const product = {
       nombre,
       precio,
       descripcion,
       cantidad: 1,
-      piezas
+      piezas,
+      imageURL
     }
     try {
       const newProduct = new Product(product)
