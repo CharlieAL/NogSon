@@ -71,7 +71,7 @@ export default function index() {
 
   const handleChangeDataMaterial = (name) => {
     setNameMaterial(name)
-    const result = materials.find((item) => item.descripcion === name)
+    const result = materials.find((item) => item.nombreOrg === name)
     if (result === undefined) return
     setPart({
       ...part,
@@ -413,7 +413,7 @@ export default function index() {
               </div>
             )}
             <div className='text-center mt-5'>
-              <Button onClick={handleAreaMaterial}>calcular</Button>
+              <Button onClick={handleAreaMaterial}>calculate</Button>
             </div>
           </div>
         </main>

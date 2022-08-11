@@ -1,14 +1,21 @@
 import Header from 'components/header'
+import PendingMenu from 'components/Menu/pending'
 import Nav from 'components/Nav'
 import useUser from 'hooks/useUser'
 import { useEffect, useState } from 'react'
-import { getFinishGood, updateFinishGood } from 'service/pendingProduct'
+import {
+  getFinishGood,
+  updateFG,
+  updateFinishGood
+} from 'service/pendingProduct'
 
 export default function finishGood() {
   useUser()
   const [finishGood, setFinishGood] = useState([])
   const [update, setUpdate] = useState(false)
-
+  const [status, setStatus] = useState(false)
+  const [data, setData] = useState()
+  const [index, setIndex] = useState()
   // const [total, setTotal] = useState(0)
   useEffect(() => {
     getFinishGood().then((data) => {
@@ -23,8 +30,36 @@ export default function finishGood() {
       setUpdate(!update)
     } catch (error) {}
   }
+  const handleOptions = (data, index) => {
+    setData(data)
+    setIndex(index)
+    setStatus(!status)
+  }
+
+  const handleUpdate = (newFG, index) => {
+    updateFG(newFG)
+      .then((data) => {
+        setFinishGood([
+          ...finishGood.slice(0, index),
+          data,
+          ...finishGood.slice(index + 1)
+        ])
+        setStatus(!status)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
   return (
     <>
+      {status && (
+        <PendingMenu
+          onClick={handleOptions}
+          data={data}
+          index={index}
+          handleUpdate={handleUpdate}
+        />
+      )}
       <Header text='Pending Products'></Header>
       <section>
         <article className='flex justify-center'>
@@ -34,8 +69,10 @@ export default function finishGood() {
                 <th>Custumer</th>
                 <th>Buyer</th>
                 <th>Product</th>
-                <th>Quantity</th>
                 <th>Sale Date</th>
+                <th>Cost Total</th>
+                <th>Quantity</th>
+                <th>Unit price</th>
                 <th>Sale Price</th>
                 <th>Action</th>
               </tr>
@@ -43,21 +80,59 @@ export default function finishGood() {
             <tbody>
               {finishGood.map((item, index) => (
                 <tr key={item.id}>
-                  <td data-title='Custumer: '>{item.cliente}</td>
-                  <td data-title='Buyer: '>{item.comprador}</td>
-                  <td data-title='Product: '>{item.productoId.nombre}</td>
-                  <td data-title='Quantity: '>{item.cantidad}</td>
-                  {item.createdAt !== item.updatedAt ? (
-                    <td data-title='Sale Date: '>
-                      {new Date(item.updatedAt).toLocaleDateString()}
-                    </td>
-                  ) : (
-                    <td data-title='Sale Date: '>
-                      {new Date(Date.now()).toLocaleDateString() + ' (Pending)'}
-                    </td>
-                  )}
+                  <td
+                    onClick={() => handleOptions(item, index)}
+                    data-title='Custumer: '
+                  >
+                    {item.cliente}
+                  </td>
+                  <td
+                    onClick={() => handleOptions(item, index)}
+                    data-title='Buyer: '
+                  >
+                    {item.comprador}
+                  </td>
+                  <td
+                    onClick={() => handleOptions(item, index)}
+                    data-title='Product: '
+                  >
+                    {item.productoId.nombre}
+                  </td>
 
-                  <td data-title='Sale Price: '>
+                  <td
+                    onClick={() => handleOptions(item, index)}
+                    data-title='Sale Date: '
+                  >
+                    {item.fechaSalida}
+                  </td>
+                  <td
+                    onClick={() => handleOptions(item, index)}
+                    data-title='Cost: '
+                  >
+                    {new Intl.NumberFormat('es-MX', {
+                      style: 'currency',
+                      currency: 'MXN'
+                    }).format(item.precioCostoTotal)}
+                  </td>
+                  <td
+                    onClick={() => handleOptions(item, index)}
+                    data-title='Quantity: '
+                  >
+                    {item.cantidad}
+                  </td>
+                  <td
+                    onClick={() => handleOptions(item, index)}
+                    data-title='Cost: '
+                  >
+                    {new Intl.NumberFormat('es-MX', {
+                      style: 'currency',
+                      currency: 'MXN'
+                    }).format(item.precioVenta)}
+                  </td>
+                  <td
+                    onClick={() => handleOptions(item, index)}
+                    data-title='Sale Price: '
+                  >
                     {new Intl.NumberFormat('es-MX', {
                       style: 'currency',
                       currency: 'MXN'
@@ -104,6 +179,10 @@ export default function finishGood() {
           border-collapse: collapse;
           width: 90%;
           margin-top: 20px;
+        }
+
+        table tbody tr:hover {
+          background-color: #ddd;
         }
 
         table td,

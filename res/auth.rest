@@ -4,8 +4,8 @@ POST http://localhost:3000/api/login
 content-type: application/json
 
 {
-  "name":"carlos",
-  "password":"3012001"
+  "name":"ivan",
+  "password":"123456"
 }
 
 ###Register
@@ -14,8 +14,8 @@ content-type: application/json
 
 {
   "name":"ivan",
-  "passwordHash":"ivan1219",
-  "level":"admin"
+  "passwordHash":"123456",
+  "level":"inge"
 }
 
 ###get all users

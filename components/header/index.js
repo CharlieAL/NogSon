@@ -1,12 +1,19 @@
 import React from 'react'
+import { logout } from 'service/auth'
 
-export default function Header({ text = '', children = ' ' }) {
+export default function Header({
+  text = '',
+  children = ' ',
+  user = { name: 'wait ...' }
+}) {
   return (
     <>
       <header>
         <div className='pl-4 absolute flex'>
           <img src='/LogoApp.png' />
-          <p className='text-xs font-extralight ml-2'>🔴 Alfa 1.0</p>
+          <a href='' onClick={logout} className='text-xs font-extralight ml-2'>
+            log Out
+          </a>
         </div>
         <div className=' flex-1'>
           <p className='font-thin '>{text}</p>

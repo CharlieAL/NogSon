@@ -18,12 +18,18 @@ const finishGoodSchema = new Schema(
     precioTotal: {
       type: Number
     },
+    precioCostoTotal: {
+      type: Number
+    },
     cantidad: {
       type: Number
     },
     productoId: {
       type: Schema.Types.ObjectId,
       ref: 'Product'
+    },
+    fechaSalida: {
+      type: String
     },
     status: {
       type: String,

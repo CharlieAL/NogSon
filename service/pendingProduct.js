@@ -22,3 +22,10 @@ export async function updateFinishGood(body) {
     console.log(err)
   }
 }
+
+export async function updateFG(body) {
+  const res = await axios.put('/api/finishGood/update', body)
+  if (res.status === 201) {
+    return res.data
+  }
+}

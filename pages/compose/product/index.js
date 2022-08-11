@@ -44,8 +44,8 @@ export default function ComposeProduct() {
 
   const handleChangeList = ({ value }) => {
     handleChangePieza('nombre', value)
-    piezas.filter((data) => {
-      if (data.descripcion.toLowerCase() === value.toLowerCase()) {
+    piezas.find((data) => {
+      if (data.nombre.toLowerCase() === value.toLowerCase()) {
         setMax(data.cantidad)
         return data
       } else {
@@ -65,6 +65,10 @@ export default function ComposeProduct() {
           imageURL,
           piezas: array
         }
+        setStatusButton(true)
+        setTimeout(() => {
+          setStatusButton(false)
+        }, 2000)
         return newProduct
       })
       .then((newProduct) => {
@@ -79,10 +83,6 @@ export default function ComposeProduct() {
             setArray([])
             setMax(0)
             setUpdate(!update)
-            setStatusButton(true)
-            setTimeout(() => {
-              setStatusButton(false)
-            }, 2000)
           })
           .catch((err) => {
             setError(err.response.data.error)
@@ -141,7 +141,10 @@ export default function ComposeProduct() {
         </Button>
       </Header>
       <section>
-        <div className='p-14 px-2 mobile:p-3 grid mobile:grid-cols-2 gap-2'>
+        <form
+          encType='multipart/form-data'
+          className='p-14 px-2 mobile:p-3 grid mobile:grid-cols-2 gap-2'
+        >
           <div className='text-center'>
             <Input
               label={'Name'}
@@ -184,7 +187,7 @@ export default function ComposeProduct() {
               }
             />
           </div>
-        </div>
+        </form>
         <div className=''>
           {error && (
             <p className='text-red-500 text-center font-light'>{error}</p>

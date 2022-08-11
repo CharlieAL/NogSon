@@ -10,7 +10,8 @@ export default function ListProducts({
   onClickUpdate,
   onClickDelete,
   index,
-  img
+  img,
+  user
 }) {
   const [show, setShow] = useState(false)
   const handleClick = (e) => {
@@ -33,7 +34,7 @@ export default function ListProducts({
         />
       )}
       <article className='shadow-lg w-52 p-2 mb-3 text-center rounded-lg'>
-        <Link href={`/status/${id}`}>
+        <Link href={user.level === 'admin' ? `status/${id}` : `pdf/${id}`}>
           <div className='cursor-pointer h-64 hover:border-2'>
             <img
               src={
@@ -54,12 +55,14 @@ export default function ListProducts({
           </div>
         </Link>
         <div id='buttonStyle'>
-          <button
-            onClick={(e) => handleClick(e, id, name, descripction)}
-            className='hover:bg-gray-200 rounded-lg px-2 py-1 '
-          >
-            Options
-          </button>
+          {user.level === 'admin' && (
+            <button
+              onClick={(e) => handleClick(e, id, name, descripction)}
+              className='hover:bg-gray-200 rounded-lg px-2 py-1 '
+            >
+              Options
+            </button>
+          )}
         </div>
       </article>
       <style jsx>{`

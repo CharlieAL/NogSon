@@ -1,0 +1,13 @@
+GET http://localhost:3000/api/proveedor
+
+###
+
+POST http://localhost:3000/api/proveedor
+Content-Type: application/json
+
+  {
+    "nombre": "PIEZA 3",
+    "precio": "1200",
+    "descripcion": "pieza 3",
+    "cantidad": "100"
+  }

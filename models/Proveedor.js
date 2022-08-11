@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose'
 
-const scrapSchema = new Schema(
+const proveedorSchema = new Schema(
   {
     nombre: {
       type: String,
@@ -8,15 +8,16 @@ const scrapSchema = new Schema(
       trim: true,
       maxlength: [40, 'Username max length must be at least 40 characters']
     },
-    nombreOrg: {
+    direccion: {
       type: String
     },
-    descripcion: {
-      type: String,
+    telefono: {
+      type: Number,
       trim: true
     },
-    area: {
-      type: Number
+    mail: {
+      type: String,
+      default: ''
     }
   },
   {
@@ -25,11 +26,11 @@ const scrapSchema = new Schema(
   }
 )
 
-scrapSchema.set('toJSON', {
+proveedorSchema.set('toJSON', {
   transform: (document, returnObject) => {
     returnObject.id = returnObject._id
     delete returnObject._id
   }
 })
 
-export default models.Scrap || model('Scrap', scrapSchema)
+export default models.Proveedor || model('Proveedor', proveedorSchema)

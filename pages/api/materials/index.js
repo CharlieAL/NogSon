@@ -23,13 +23,23 @@ export default async function handler(req, res) {
       objeto.minStock = material.minStock
       objeto.id = material._id
       objeto.precio = material.precio
+      objeto.nombreOrg = material.nombreOrg
       materiales.push(objeto)
     }
     res.status(200).json(materiales)
   } else if (method === 'POST') {
     const { body } = req
-    const { nombre, precio, descripcion, cantidad, scrap, pieza, minStock } =
-      body
+    const {
+      nombre,
+      precio,
+      descripcion,
+      cantidad,
+      scrap,
+      pieza,
+      minStock,
+      nombreOrg,
+      proveedor
+    } = body
     if (
       nombre === '' ||
       precio === '' ||
@@ -43,11 +53,12 @@ export default async function handler(req, res) {
     if (pieza) {
       try {
         const part = new Part({
-          nombre,
+          nombre: nombreOrg,
           precio,
           descripcion,
           cantidad,
-          scrap
+          scrap,
+          proveedor
         })
         console.log(part, 'part')
         await part.save()
@@ -63,6 +74,7 @@ export default async function handler(req, res) {
       const newScrap = new Scrap({
         nombre,
         precio,
+        nombreOrg,
         descripcion,
         cantidad,
         area
@@ -73,10 +85,12 @@ export default async function handler(req, res) {
     }
     const material = {
       nombre,
+      nombreOrg,
       precio,
       descripcion,
       cantidad,
-      minStock
+      minStock,
+      proveedor
     }
     try {
       const newMaterial = await new Material(material)

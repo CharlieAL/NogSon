@@ -2,25 +2,38 @@ import Button from 'components/Button'
 import Header from 'components/header'
 import Input from 'components/Input'
 import Nav from 'components/Nav'
+import Select from 'components/Select'
 import useUser from 'hooks/useUser'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createMaterial } from 'service/materials'
+import { getSupplier } from 'service/supplier'
+import Link from 'next/link'
 
 export default function Index() {
   useUser()
   const [material, setMaterial] = useState({
     id: '',
     nombre: '',
+    nombreOrg: '',
     precio: '',
     descripcion: '',
     cantidad: '',
     minStock: '',
+    proveedor: '',
     scrap: false,
     finded: null,
     pieza: false
   })
   const [statusButton, setStatusButton] = useState(false)
   const [message, setMessage] = useState(null)
+  const [supplier, setSupplier] = useState([])
+
+  useEffect(() => {
+    getSupplier().then((data) => {
+      setSupplier(data)
+      setMaterial({ ...material, proveedor: data[0].nombre })
+    })
+  }, [])
 
   const handleChange = (name, value) =>
     setMaterial({ ...material, [name]: value })
@@ -33,11 +46,15 @@ export default function Index() {
     setTimeout(() => {
       setStatusButton(false)
     }, 2000)
+
+    console.log(material)
     createMaterial(material)
       .then((data) => {
         setMaterial({
           ...material,
           nombre: '',
+          proveedor: '',
+          nombreOrg: '',
           precio: '',
           descripcion: '',
           cantidad: '',
@@ -60,7 +77,6 @@ export default function Index() {
       setMessage(null)
     }, 6000)
   }
-
   return (
     <>
       <Header text='Material'>
@@ -82,8 +98,16 @@ export default function Index() {
           <div className='p-14 px-2 mobile:p-3 grid mobile:grid-cols-2 gap-2'>
             <div className='text-center'>
               <Input
-                label={'Search material'}
+                label={'Name'}
                 placeholder='Enter Name'
+                value={material.nombreOrg}
+                onChange={(e) => handleChange('nombreOrg', e.target.value)}
+              />
+            </div>
+            <div className='text-center'>
+              <Input
+                label={'Measures'}
+                placeholder='Enter Measures'
                 value={material.nombre}
                 onChange={(e) => handleChange('nombre', e.target.value)}
               />
@@ -105,6 +129,21 @@ export default function Index() {
                 onChange={(e) => handleChange('descripcion', e.target.value)}
                 value={material.descripcion}
               />
+            </div>
+            <div className='text-center'>
+              <Select
+                text={'Supplier'}
+                data={supplier}
+                value={material.proveedor}
+                onChange={(e) => {
+                  handleChange('proveedor', e.target.value)
+                }}
+              />
+              <Link href={'/compose/supplier'}>
+                <a className='px-5 hover:text-green-800 cursor-pointer font-bold text-green-500'>
+                  Add
+                </a>
+              </Link>
             </div>
             <div className='text-center'>
               <Input

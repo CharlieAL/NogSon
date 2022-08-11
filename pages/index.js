@@ -16,17 +16,26 @@ export default function Home() {
   const [password, setPassword] = useState('')
 
   useEffect(() => {
-    user && router.replace('/main')
+    if (user) {
+      router.push('/main')
+    }
   }, [user])
 
   const handleSubminLogin = (e) => {
     e.preventDefault()
 
     login(name, password)
-      .then(() => {
-        router.replace('/main')
+      .then((user) => {
+        console.log(user)
+        if (user.level === 'admin') {
+          router.push('/main')
+        } else if (user.level === 'maquinista') {
+          router.push('/maquinista')
+        }
+        router.push('/main')
       })
       .catch((err) => {
+        console.log(err)
         setError(err.response.data.error)
         setTimeout(() => {
           setError('')
@@ -41,7 +50,7 @@ export default function Home() {
           <div className='text-center'>
             <Image width={90} height={90} src='/logoNog.png' alt='NogSon' />
           </div>
-          <h1 className='font-extralight text-center'>nogson app</h1>
+          <h1 className='font-extralight text-center'>NOGSON</h1>
           <LoginForm
             onSubmit={handleSubminLogin}
             error={error}

@@ -65,6 +65,7 @@ export default function Main() {
         <div className='flex flex-wrap justify-evenly'>
           {productos.map((data, index) => (
             <ListProducts
+              user={user}
               onClickUpdate={hanldeClickUpdate}
               onClickDelete={hanldeClickDelete}
               key={data.id}

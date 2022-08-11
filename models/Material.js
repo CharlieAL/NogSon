@@ -4,9 +4,11 @@ const materialSchema = new Schema(
   {
     nombre: {
       type: String,
-      required: [true, 'name is required'],
-      trim: true,
-      maxlength: [40, 'Username max length must be at least 40 characters']
+      required: true
+    },
+    nombreOrg: {
+      type: String,
+      required: true
     },
     precio: {
       type: String
@@ -17,6 +19,10 @@ const materialSchema = new Schema(
     },
     cantidad: {
       type: Number
+    },
+    proveedor: {
+      type: String,
+      ref: 'Proveedor'
     },
     minStock: {
       type: Number,

@@ -9,3 +9,7 @@ export const login = async (name, password) => {
     return response.data.user
   }
 }
+
+export const logout = () => {
+  localStorage.removeItem('nogsonUser')
+}

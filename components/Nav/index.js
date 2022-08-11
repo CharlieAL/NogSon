@@ -29,7 +29,7 @@ export default function Nav() {
 
         <Link href={'/compose/material'}>
           <a className='flex h-full justify-center'>
-            <div>M</div>
+            <div>Material</div>
           </a>
         </Link>
         <Link href={'/compose/pending'}>
@@ -39,12 +39,12 @@ export default function Nav() {
         </Link>
         <Link href={'/graphs'}>
           <a className='flex h-full justify-center'>
-            <div>Inv</div>
+            <div>Inventary</div>
           </a>
         </Link>
         <Link href={'/finishGood'}>
           <a className='flex h-full justify-center'>
-            <div>FG</div>
+            <div>FinishGood</div>
           </a>
         </Link>
       </nav>

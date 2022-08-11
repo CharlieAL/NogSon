@@ -8,8 +8,16 @@ dbConnection()
 export default async function handler(req, res) {
   const { method, body } = req
   if (method === 'POST') {
-    const { cliente, comprador, precioVenta, cantidad, productoId, piezas } =
-      body
+    const {
+      cliente,
+      comprador,
+      precioVenta,
+      precioCosto,
+      cantidad,
+      productoId,
+      piezas,
+      fechaSalida
+    } = body
     if (cliente === '') {
       return res.status(400).json({ error: 'Custumer is required' })
     }
@@ -22,11 +30,14 @@ export default async function handler(req, res) {
     const data = await updateAmountOfParts(cantidad, piezas)
     if (data.error) return res.status(400).json(data)
     const precioTotal = getTotalFinishGood(cantidad, precioVenta)
+    const precioCostoTotal = getTotalFinishGood(cantidad, precioCosto)
     const newFinishGood = {
       cliente,
       comprador,
       precioVenta,
+      precioCostoTotal,
       cantidad,
+      fechaSalida,
       precioTotal,
       productoId
     }
