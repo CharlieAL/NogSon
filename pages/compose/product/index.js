@@ -65,6 +65,7 @@ export default function ComposeProduct() {
           imageURL,
           piezas: array
         }
+        setPathImage('')
         setStatusButton(true)
         setTimeout(() => {
           setStatusButton(false)
@@ -96,22 +97,12 @@ export default function ComposeProduct() {
   const handleClick = (e) => {
     e.preventDefault()
     if (pieza.nombre !== '' && pieza.quantity !== '') {
-      if (pieza.cantidad <= max) {
-        setArray(array.concat(pieza))
-        setPieza({
-          nombre: '',
-          cantidad: ''
-        })
-        setUpdate(!update)
-      } else {
-        setError(
-          'La cantidad de piezas no puede ser mayor a la cantidad disponible'
-        )
-        handleChangePieza('cantidad', max)
-        setTimeout(() => {
-          setError('')
-        }, 3000)
-      }
+      setArray(array.concat(pieza))
+      setPieza({
+        nombre: '',
+        cantidad: ''
+      })
+      setUpdate(!update)
     }
   }
 

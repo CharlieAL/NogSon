@@ -11,12 +11,9 @@ export default async function handler(req, res) {
       const data = await ViewInstructions.find({
         nombre: viewInstructions.nombre
       })
-      console.log(data)
       if (data.length > 0) {
-        console.log('entro')
         return res.status(203).json({ error: 'Instruccion ya existe' })
       }
-      console.log('sale')
       const newViewInstructions = await new ViewInstructions(viewInstructions)
       newViewInstructions.save()
       res.status(201).json(newViewInstructions)

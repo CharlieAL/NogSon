@@ -11,6 +11,7 @@ export default function RenderTables({ data }) {
             <th>Price</th>
             <th>Quantity</th>
             <th>Min Stock</th>
+            <th>Supplier</th>
           </tr>
         </thead>
         <tbody>
@@ -24,11 +25,12 @@ export default function RenderTables({ data }) {
                     : 'text-red-500 font-bold hover:bg-gray-200'
                 }
               >
-                <td>{item.nombre}</td>
-                <td>{item.descripcion}</td>
-                <td>{item.precio}</td>
+                <td>{item.nombre || 'empty'}</td>
+                <td>{item.descripcion || 'empty'}</td>
+                <td>{item.precio || 'empty'}</td>
                 <td>{item.cantidad}</td>
                 <td>{item.minStock}</td>
+                <td>{item.proveedor || 'NO'}</td>
               </tr>
             </Link>
           ))}

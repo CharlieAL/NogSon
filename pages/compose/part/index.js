@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import { getMaterials } from 'service/materials'
 import { createPart } from 'service/parts'
 import { getScrap } from 'service/scrap'
-import uploadImage from 'service/uploadImage'
+// import uploadImage from 'service/uploadImage'
 
 export default function index() {
   useUser()
@@ -51,8 +51,6 @@ export default function index() {
   })
   const [scraps, setScraps] = useState([])
   const [materials, setMaterials] = useState([])
-  const [pathImage, setPathImage] = useState('')
-  const [imageSelected, setImageSelected] = useState(false)
   useEffect(() => {
     getMaterials().then((data) => {
       setMaterials(data)
@@ -170,74 +168,53 @@ export default function index() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
-    uploadImage(imageSelected)
-      .then((imageURL) => {
-        const body = {
-          part,
-          scrap,
-          imageURL
-        }
-        return body
-      })
-      .then((body) => {
-        createPart(body)
-          .then((data) => {
-            setPart({
-              ...part,
-              nombre: '',
-              precio: '',
-              descripcion: '',
-              cantidad: '',
-              alto: '',
-              ancho: '',
-              minStock: '',
-              materiales: {
-                nombre: '',
-                areaOnePice: ''
-              }
-            })
-            setScrap({
-              ...scrap,
-              nombre: '',
-              descripcion: '',
-              area: '',
-              same: false
-            })
-            setMaterialesMedidas({
-              ...materialesMedidas,
-              nombre: '',
-              descripcion: '',
-              alto: '',
-              ancho: '',
-              cantidad: ''
-            })
-            setScrapMedidas({
-              ...scrapMedidas,
-              id: '',
-              area: '',
-              status: ''
-            })
-            setNameMaterial('')
-            setNameScrap('')
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      })
-  }
-
-  const handleFile = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-      setImageSelected(file)
-      if (file.type.includes('image')) {
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = (e) => {
-          setPathImage(e.target.result)
-        }
-      }
+    const body = {
+      part,
+      scrap
     }
+    createPart(body)
+      .then((data) => {
+        setPart({
+          ...part,
+          nombre: '',
+          precio: '',
+          descripcion: '',
+          cantidad: '',
+          alto: '',
+          ancho: '',
+          minStock: '',
+          materiales: {
+            nombre: '',
+            areaOnePice: ''
+          }
+        })
+        setScrap({
+          ...scrap,
+          nombre: '',
+          descripcion: '',
+          area: '',
+          same: false
+        })
+        setMaterialesMedidas({
+          ...materialesMedidas,
+          nombre: '',
+          descripcion: '',
+          alto: '',
+          ancho: '',
+          cantidad: ''
+        })
+        setScrapMedidas({
+          ...scrapMedidas,
+          id: '',
+          area: '',
+          status: ''
+        })
+        setNameMaterial('')
+        setNameScrap('')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   return (
@@ -262,17 +239,6 @@ export default function index() {
               </div>
               <div className='text-center'>
                 <Input
-                  label={'Price'}
-                  type={'number'}
-                  placeholder={'price'}
-                  onChange={(e) => {
-                    setPart({ ...part, precio: e.target.value })
-                  }}
-                  value={part.precio}
-                />
-              </div>
-              <div className='text-center'>
-                <Input
                   label={'Description'}
                   placeholder={'Description'}
                   onChange={(e) => {
@@ -286,23 +252,8 @@ export default function index() {
                   onDrop={handleDrop}
                   placeholder={'Image'}
                 ></textarea> */}
-                <Input
-                  type={'file'}
-                  onChange={handleFile}
-                  className={
-                    ' text-sm text-slate-500 file:rounded-full file:bg-black file:px-2 file:py-1 file:border-none file:text-white file:text-sm mt-5 '
-                  }
-                />
               </div>
               <div className='text-center'>
-                <Input
-                  label={'MinStock'}
-                  placeholder={'MinStock'}
-                  onChange={(e) => {
-                    setPart({ ...part, minStock: e.target.value })
-                  }}
-                  value={part.minStock}
-                />
                 <Input
                   type={'checkbox'}
                   label={'Buscar En Scrap'}
@@ -417,13 +368,6 @@ export default function index() {
             </div>
           </div>
         </main>
-        <div className='flex justify-center'>
-          <img
-            className='w-96 '
-            src={pathImage || '/logoApp.png'}
-            alt={'Image Here'}
-          />
-        </div>
       </section>
       <Nav></Nav>
       <style jsx>{`

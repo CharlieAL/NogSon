@@ -5,9 +5,11 @@ import Nav from 'components/Nav'
 import useUser from 'hooks/useUser'
 import { useState } from 'react'
 import { createSupplier } from 'service/supplier'
+import { useRouter } from 'next/router'
 
 export default function index() {
   useUser()
+  const router = useRouter()
   const [supplier, setSupplier] = useState({
     nombre: '',
     direccion: '',
@@ -22,8 +24,9 @@ export default function index() {
           nombre: '',
           direccion: '',
           telefono: '',
-          email: ''
+          mail: ''
         })
+        router.push('/compose/material')
       })
       .catch((error) => {
         console.log(error)

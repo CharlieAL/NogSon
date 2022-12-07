@@ -6,11 +6,13 @@ export default function RenderTablesMaterial({ data }) {
       <table id='customers'>
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Measures</th>
+            <th>Material</th>
             <th>Description</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Min Stock</th>
+            <th>Supplier</th>
           </tr>
         </thead>
         <tbody>
@@ -24,11 +26,13 @@ export default function RenderTablesMaterial({ data }) {
                     : 'text-red-500 font-bold hover:bg-gray-200'
                 }
               >
-                <td>{item.nombre}</td>
-                <td>{item.descripcion}</td>
-                <td>{item.precio}</td>
-                <td>{item.cantidad}</td>
-                <td>{item.minStock}</td>
+                <td>{item.nombre || 'empty'}</td>
+                <td>{item.nombreOrg || 'empty'}</td>
+                <td>{item.descripcion || 'empty'}</td>
+                <td>{item.precio || 'empty'}</td>
+                <td>{item.cantidad || 'empty'}</td>
+                <td>{item.minStock || 'empty'}</td>
+                <td>{item.proveedor || 'empty'}</td>
               </tr>
             </Link>
           ))}

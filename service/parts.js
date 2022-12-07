@@ -1,16 +1,8 @@
 import axios from 'axios'
-export function getPiezasFormProducts(data, URL) {
+export async function getPiezasFormProducts(data, URL) {
   const fetchUrl = `${URL}/api/piezas/compose`
-
-  return fetch(fetchUrl, {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
-    .then((res) => res.json())
-    .then((response) => {
-      return response
-    })
-    .catch((err) => console.log(err))
+  const res = await axios.post(fetchUrl, data)
+  return res.data
 }
 
 export async function createPart(body) {

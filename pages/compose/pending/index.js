@@ -190,6 +190,11 @@ export default function finishGood() {
           padding: 8px;
           text-align: center;
           border: none;
+          border-bottom: 1px solid #ddd;
+        }
+
+        table td {
+          background-color: #fffaaa2d;
         }
 
         table th {

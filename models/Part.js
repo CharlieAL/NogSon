@@ -15,6 +15,10 @@ const partSchema = new Schema(
       type: String,
       trim: true
     },
+    proveedor: {
+      type: String,
+      ref: 'Proveedor'
+    },
     cantidad: {
       type: Number
     },

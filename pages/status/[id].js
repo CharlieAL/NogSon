@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { createFinishGood } from 'service/pendingProduct'
 import { getPiezasFormProducts } from 'service/parts'
 import { URLNogSon } from 'utils/URL'
+import Link from 'next/link'
 // import { sendInstructions } from 'service/instructions'
 
 export default function StatusProduc(props) {
@@ -167,15 +168,47 @@ export default function StatusProduc(props) {
             <p className='text-red-500 text-center font-light'>{error}</p>
           )}
           <div className='justify-center mt-8 flex'>
-            <div className='p-2'>
-              <Button
-                onClick={() => {
-                  router.push(`/pdf/${producto.id}`)
-                }}
-              >
-                Parts PDF
-              </Button>
-            </div>
+            <table id='customers'>
+              <thead>
+                <tr>
+                  <th>Measures</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Units Need</th>
+                  <th>Quantity</th>
+                  <th>Min Stock</th>
+                  <th>Supplier</th>
+                </tr>
+              </thead>
+              <tbody>
+                {piezas.map((item, index) => (
+                  <Link key={item.id} href={`/compose/part/${item.id}`}>
+                    <tr
+                      key={item.id}
+                      className={
+                        item.cantidadTotal > item.minStock
+                          ? 'hover:bg-gray-200'
+                          : 'text-red-500 font-bold hover:bg-gray-200'
+                      }
+                    >
+                      {item.altura ? (
+                        <td>{item.altura + 'x' + item.ancho}</td>
+                      ) : (
+                        <td>NO</td>
+                      )}
+                      <td>{item.nombre || 'empty'}</td>
+                      <td>{item.descripcion || 'empty'}</td>
+                      <td>{item.precio || 'empty'}</td>
+                      <td>{item.cantidad}</td>
+                      <td>{item.cantidadTotal}</td>
+                      <td>{item.minStock}</td>
+                      <td>{item.proveedor || 'NO'}</td>
+                    </tr>
+                  </Link>
+                ))}
+              </tbody>
+            </table>
             {/* <div className='p-2'>
                   <Button
                     className={

@@ -4,6 +4,7 @@ import { dbConnection } from 'utils/db'
 dbConnection()
 
 export default async function updateAmountOfParts(cantidad, piezas) {
+  console.log(cantidad, piezas)
   if (cantidad === '') return { error: 'Quantity is required' }
   const cantidadInt = parseInt(cantidad)
   for (let i = 0; i < piezas.length; i++) {
@@ -11,9 +12,7 @@ export default async function updateAmountOfParts(cantidad, piezas) {
     const total = cantidadInt * pieza.cantidad
     if (total > pieza.cantidadTotal) {
       return {
-        error: `You need ${total - pieza.cantidadTotal} ${
-          pieza.nombre
-        } to create the product`
+        error: `You need (${total - pieza.cantidadTotal} U) ${pieza.nombre}`
       }
     } else {
       const cantidadRestante = pieza.cantidadTotal - total

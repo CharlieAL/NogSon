@@ -31,7 +31,9 @@ export default function Index() {
   useEffect(() => {
     getSupplier().then((data) => {
       setSupplier(data)
-      setMaterial({ ...material, proveedor: data[0].nombre })
+      if (data.length > 0) {
+        setMaterial({ ...material, proveedor: data[0].nombre })
+      }
     })
   }, [])
 
@@ -115,7 +117,6 @@ export default function Index() {
             <div className='text-center'>
               <Input
                 label={'Price'}
-                type='number'
                 placeholder='Price'
                 onChange={(e) => handleChange('precio', e.target.value)}
                 value={material.precio}
@@ -131,6 +132,7 @@ export default function Index() {
               />
             </div>
             <div className='text-center'>
+              Supplier:
               <Select
                 text={'Supplier'}
                 data={supplier}

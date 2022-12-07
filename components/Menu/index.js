@@ -1,6 +1,5 @@
 import Input from 'components/Input'
 import { useState } from 'react'
-import { upload } from 'service/upload'
 
 export default function Menu({
   onClick,
@@ -18,25 +17,7 @@ export default function Menu({
     descripcion: description,
     precio: price
   })
-  const [imageSelected, setImageSelected] = useState('')
-  const [msg, setMsg] = useState('')
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    upload(imageSelected).then((data) => {
-      setMsg(data.message)
-      setTimeout(() => {
-        setMsg('')
-      }, 3000)
-    })
-  }
-
-  const handleFile = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-      setImageSelected(file)
-    }
-  }
   return (
     <>
       <div id='menuContainer'>
@@ -44,11 +25,7 @@ export default function Menu({
           <div className='relative'>
             <button onClick={onClick}>❌</button>
           </div>
-          <div className='flex flex-col justify-center items-center'>
-            <h1 className='text-xl text-white font-light w-full text-center bg-green-500'>
-              {msg}
-            </h1>
-          </div>
+          <div className='flex flex-col justify-center items-center'></div>
           <article className='h-80'>
             <p className='text-center'></p>
             <div className='text-center m-2'>
@@ -78,22 +55,7 @@ export default function Menu({
                 }}
               />
             </div>
-            <div className='text-center m-2 mb-10'>
-              <div className='flex justify-center items-center'>
-                <Input
-                  label={'PDF'}
-                  type={'file'}
-                  onChange={handleFile}
-                  className='file:bg-red-600 file:rounded-xl file:border-none file:hover:bg-red-500 file:px-2 file:py-1 file:text-white file:text-sm'
-                />
-                <button
-                  onClick={handleSubmit}
-                  className='text-green-500 font-bold bg-green-200 p-2 rounded-xl active:translate-y-1 hover:bg-green-400'
-                >
-                  add pdf
-                </button>
-              </div>
-            </div>
+            <div className='text-center m-2 mb-10'></div>
           </article>
           <div className='flex justify-evenly mt-10'>
             <button

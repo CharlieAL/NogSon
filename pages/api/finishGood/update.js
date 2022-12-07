@@ -7,7 +7,6 @@ export default async function handler(req, res) {
   const { method, body } = req
   if (method === 'PUT') {
     try {
-      console.log(body)
       const data = await FinishGood.findByIdAndUpdate(body.id, body, {
         new: true
       })

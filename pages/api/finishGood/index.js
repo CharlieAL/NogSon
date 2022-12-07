@@ -69,7 +69,6 @@ export default async function handler(req, res) {
     }
   } else if (method === 'PUT') {
     try {
-      console.log(body)
       const data = await FinishGood.findByIdAndUpdate(body.id, {
         status: 'finished'
       })

@@ -2,12 +2,14 @@ import Header from 'components/header'
 import Nav from 'components/Nav'
 import useUser from 'hooks/useUser'
 import { useEffect, useState } from 'react'
-import { getFinishGood, updateFinishGood } from 'service/pendingProduct'
+import { getFinishGood } from 'service/pendingProduct'
+import { useRouter } from 'next/router'
 
 export default function finishGood() {
+  const router = useRouter()
   useUser()
   const [finishGood, setFinishGood] = useState([])
-  const [update, setUpdate] = useState(false)
+  const [update] = useState(false)
 
   // const [total, setTotal] = useState(0)
   useEffect(() => {
@@ -17,12 +19,14 @@ export default function finishGood() {
     })
   }, [update])
 
-  const handleClick = async (id) => {
-    try {
-      await updateFinishGood({ id })
-      setUpdate(!update)
-    } catch (error) {}
+  const handleInvoice = (id) => {
+    if (id) {
+      router.push(`/invoice/${id}`)
+    } else {
+      return 'not found id'
+    }
   }
+
   return (
     <>
       <Header text='Finish-Good'></Header>
@@ -34,29 +38,34 @@ export default function finishGood() {
                 <th>Custumer</th>
                 <th>Buyer</th>
                 <th>Product</th>
-                <th>Quantity</th>
                 <th>Sale Date</th>
+                <th>Cost Total</th>
+                <th>Quantity</th>
+                <th>Unit price</th>
                 <th>Sale Price</th>
-                <th>Action</th>
+                <th>invoice</th>
               </tr>
             </thead>
             <tbody>
               {finishGood.map((item, index) => (
-                <tr key={item.id}>
+                <tr key={item.id} id='trId'>
                   <td data-title='Custumer: '>{item.cliente}</td>
                   <td data-title='Buyer: '>{item.comprador}</td>
                   <td data-title='Product: '>{item.productoId.nombre}</td>
+                  <td>{item.fechaSalida} </td>
+                  <td data-title='Sale Price: '>
+                    {new Intl.NumberFormat('es-MX', {
+                      style: 'currency',
+                      currency: 'MXN'
+                    }).format(item.precioTotal)}
+                  </td>
                   <td data-title='Quantity: '>{item.cantidad}</td>
-                  {item.createdAt !== item.updatedAt ? (
-                    <td data-title='Sale Date: '>
-                      {new Date(item.updatedAt).toLocaleDateString()}
-                    </td>
-                  ) : (
-                    <td data-title='Sale Date: '>
-                      {new Date(Date.now()).toLocaleDateString() + ' (Pending)'}
-                    </td>
-                  )}
-
+                  <td data-title='Cost: '>
+                    {new Intl.NumberFormat('es-MX', {
+                      style: 'currency',
+                      currency: 'MXN'
+                    }).format(item.precioVenta)}
+                  </td>
                   <td data-title='Sale Price: '>
                     {new Intl.NumberFormat('es-MX', {
                       style: 'currency',
@@ -64,18 +73,12 @@ export default function finishGood() {
                     }).format(item.precioTotal)}
                   </td>
                   <td>
-                    {item.status === 'pending' ? (
-                      <button
-                        onClick={(e) => handleClick(item.id)}
-                        className='bg-yellow-500 hover:bg-yellow-700 text-white py-1 px-4 rounded-2xl  '
-                      >
-                        Finish?
-                      </button>
-                    ) : (
-                      <button className='bg-green-500 text-white py-1 px-4 rounded-2xl  '>
-                        Finished
-                      </button>
-                    )}
+                    <button
+                      onClick={() => handleInvoice(item.id)}
+                      className='text-black hover:text-gray-300'
+                    >
+                      GET
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -104,6 +107,12 @@ export default function finishGood() {
           border-collapse: collapse;
           width: 90%;
           margin-top: 20px;
+          margin
+        }
+
+        #trID {
+          margin: 10px;
+          background-color: #fff;
         }
 
         table td,
@@ -111,10 +120,25 @@ export default function finishGood() {
           padding: 8px;
           text-align: center;
           border: none;
+          border-bottom: 1px solid #ddd;
+        }
+
+        table td {
+          background-color: #afffaa2d;
+          
+        }
+
+        table tr {
+          background-color: #fff;
+        }
+
+        table tbody tr{
+          margin-bottom: 20px;
         }
 
         table th {
           padding-top: 8px;
+
           padding-bottom: 8px;
         }
 

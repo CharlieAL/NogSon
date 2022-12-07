@@ -24,6 +24,7 @@ export default async function handler(req, res) {
       objeto.id = material._id
       objeto.precio = material.precio
       objeto.nombreOrg = material.nombreOrg
+      objeto.proveedor = material.proveedor
       materiales.push(objeto)
     }
     res.status(200).json(materiales)
@@ -60,7 +61,6 @@ export default async function handler(req, res) {
           scrap,
           proveedor
         })
-        console.log(part, 'part')
         await part.save()
         return res.status(201).json(part)
       } catch (error) {
@@ -79,7 +79,6 @@ export default async function handler(req, res) {
         cantidad,
         area
       })
-      console.log(newScrap, 'newScrap')
       await newScrap.save()
       return res.status(201).json(newScrap)
     }
@@ -113,7 +112,6 @@ export default async function handler(req, res) {
       const data = await Material.findByIdAndUpdate(id, material, { new: true })
       res.send(data)
     } catch (error) {
-      console.log(error)
       res.status(400).json({ error: 'Error al actualizar el material' })
     }
   }

@@ -34,7 +34,7 @@ export default function Nav() {
         </Link>
         <Link href={'/compose/pending'}>
           <a className='flex h-full justify-center'>
-            <div>Stock</div>
+            <div>Pending</div>
           </a>
         </Link>
         <Link href={'/graphs'}>
@@ -44,7 +44,7 @@ export default function Nav() {
         </Link>
         <Link href={'/finishGood'}>
           <a className='flex h-full justify-center'>
-            <div>FinishGood</div>
+            <div>Finish</div>
           </a>
         </Link>
       </nav>

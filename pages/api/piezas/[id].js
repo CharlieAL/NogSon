@@ -33,7 +33,6 @@ export default async function handler(req, res) {
           await Scrap.findByIdAndUpdate(scrap[0]._id, { area: areaRestante })
         }
       }
-      console.log(body)
       const part = {
         nombre,
         descripcion,

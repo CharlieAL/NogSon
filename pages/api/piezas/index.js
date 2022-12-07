@@ -26,16 +26,11 @@ export default async function handler(req, res) {
       ancho
     } = body.part
     const { same, id } = body.scrap
-    console.log(body.scrap)
     if (same) {
       try {
         await Scrap.findByIdAndUpdate(id, body.scrap)
-      } catch (error) {
-        console.log(error)
-      }
-      console.log('scrap updated')
+      } catch (error) {}
     } else {
-      console.log('entro')
       // restar cantidad de materiales
       const material = await Material.findOne({ nombre: materiales.nombre })
       const cantidadQuedante = material.cantidad - 1
