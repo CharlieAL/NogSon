@@ -1,4 +1,6 @@
 import Material from 'models/Material'
+import { dbConnection } from 'utils/db'
+dbConnection()
 
 export default async function handler(req, res) {
   const { method, body } = req

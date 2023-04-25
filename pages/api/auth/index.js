@@ -3,11 +3,12 @@ import { dbConnection } from 'utils/db'
 
 dbConnection()
 
-export default async function handler (req, res) {
+export default async function handler(req, res) {
   const { method, body } = req
   if (method === 'POST') {
     try {
       const user = body
+      console.log(user)
       const newUser = await User.create(user)
       newUser.save()
       res.status(200).json(newUser)

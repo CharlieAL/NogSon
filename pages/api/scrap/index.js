@@ -1,4 +1,6 @@
 import Scrap from 'models/Scrap'
+import { dbConnection } from 'utils/db'
+dbConnection()
 
 export default async function handler(req, res) {
   const { method } = req
